@@ -8,6 +8,7 @@ import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
 import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
+import { signIn } from "next-auth/react";
 
 export default function Layout({
   meta,
@@ -21,13 +22,11 @@ export default function Layout({
   children: ReactNode;
 }) {
   const { data: session, status } = useSession();
-  const { SignInModal, setShowSignInModal } = useSignInModal();
-  const scrolled = useScroll(50);
+  const scrolled = useScroll(5);
 
   return (
     <>
       <Meta {...meta} />
-      <SignInModal />
       <div className="fixed h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100" />
       <div
         className={`fixed top-0 w-full ${
@@ -52,7 +51,7 @@ export default function Layout({
               {!session && status !== "loading" ? (
                 <motion.button
                   className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
-                  onClick={() => setShowSignInModal(true)}
+                  onClick={() => signIn("auth0")}
                   {...FADE_IN_ANIMATION_SETTINGS}
                 >
                   Sign In
