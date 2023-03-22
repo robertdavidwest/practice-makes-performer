@@ -6,7 +6,6 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
-import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
 import { signIn } from "next-auth/react";
 
@@ -44,7 +43,7 @@ export default function Layout({
               height="30"
               className="mr-2 rounded-sm"
             ></Image>
-            <p>Precedent</p>
+            <p>Practice. Makes. Performer</p>
           </Link>
           <div>
             <AnimatePresence>
