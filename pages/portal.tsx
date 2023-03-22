@@ -7,21 +7,8 @@ import { Github, Twitter } from "@/components/shared/icons";
 import WebVitals from "@/components/home/web-vitals";
 import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
-import { GetServerSideProps } from "next";
 
-import { getSession } from "next-auth/react";
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-  if (session) {
-    return {
-      redirect: { destination: "/portal", permanent: true },
-    };
-  }
-  return { props: {} };
-};
-
-export default function Home() {
+export default function Portal() {
   return (
     <Layout>
       <motion.div
