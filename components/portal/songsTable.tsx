@@ -12,7 +12,7 @@ import Paper from "@mui/material/Paper";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
-
+import { useRouter } from "next/router";
 import { Song } from "@prisma/client";
 import { StorefrontSharp } from "@mui/icons-material";
 
@@ -173,6 +173,8 @@ function prettyDate(date: Date) {
 }
 
 export default function EnhancedTable({ songs }: { songs: Song[] }) {
+  const { push } = useRouter();
+
   let rows: Data[];
   if (!songs.length) rows = [];
   else {
@@ -203,7 +205,7 @@ export default function EnhancedTable({ songs }: { songs: Song[] }) {
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-    console.log("you clicked me");
+    push(`/songs/${id}`);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

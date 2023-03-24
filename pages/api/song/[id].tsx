@@ -36,15 +36,21 @@ export default async function handler(
       },
     });
     if (!song) {
-      res.status(404).send("This page does not exist");
+      res
+        .status(404)
+        .json({ error: { message: "This page does not exist", status: 404 } });
     }
-    console.log("####");
     if (song?.userId !== userId) {
-      res.status(401).send("cannot access other users data");
+      res.status(401).json({
+        error: { message: "cannot access other users data", status: 401 },
+      });
     }
+    console.log("song", song);
     res.status(200).json({ song });
   } else {
     // Not Signed in
-    res.status(401).send("not signed in");
+    res.status(401).json({
+      error: { message: "not signed in", status: 404 },
+    });
   }
 }

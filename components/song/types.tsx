@@ -1,0 +1,29 @@
+import { Song, Section } from "@prisma/client";
+
+export interface PlayerType {
+  sectionId: number;
+  inMemoryId: number;
+  label: string;
+  start: number;
+  setStart: any;
+  end: number;
+  setEnd: any;
+  duration: number;
+  currentTime: number;
+  restart: () => void;
+  loadPlayPause: () => void;
+  isPlaying: boolean;
+  loop: boolean;
+  toggleLoop: () => void;
+  setPlayback: (value: number) => void;
+  speed: number;
+  setAudioPlaybackRate: (value: number) => void;
+  deletePlayer: (sectionId: number, inMemoryId: number) => void;
+}
+
+export interface AudioType {
+  song: Song;
+  section: Section;
+  audio: HTMLAudioElement;
+  deletePlayer: (sectionId: number, inMemoryId: number) => void;
+}
