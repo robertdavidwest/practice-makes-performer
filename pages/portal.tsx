@@ -13,30 +13,17 @@ import { Container } from "@mui/material";
 
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 import { User, Song } from "@prisma/client";
+import useSWR from "swr";
+
+const fetcher = (key: string) => fetch(key).then((res) => res.json());
 
 export default function Portal() {
   const { data: session, status } = useSession();
-
-  const defaultSongs: Song[] = [];
-  const [songs, setSongs] = useState(defaultSongs);
-  const [user, setUser] = useState({} as User);
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      setUser(session.user as User);
-      const _fetch = async () => {
-        const res = await fetch("api/songs");
-        if (res.status === 200) {
-          const data = await res.json();
-          setSongs(data.songs);
-        }
-      };
-      _fetch();
-    }
-  }, [session, status]);
   const { push } = useRouter();
+  const { data } = useSWR("/api/songs", fetcher);
+
+  let user = {} as User;
   if (!session) {
     if (status === "unauthenticated") {
       push("/");
@@ -51,7 +38,14 @@ export default function Portal() {
           <Loading />
         </Layout>
       );
+  } else {
+    user = session.user as User;
   }
+  let songs: Song[] = [];
+  if (data && data.songs) {
+    songs = data.songs;
+  }
+
   return (
     <Layout>
       <motion.div
