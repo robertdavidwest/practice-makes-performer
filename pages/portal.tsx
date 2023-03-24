@@ -17,8 +17,7 @@ import { useEffect, useState } from "react";
 import { User, Song } from "@prisma/client";
 
 export default function Portal() {
-  const { data: session, status } = useSession({ required: true });
-  const router = useRouter();
+  const { data: session, status } = useSession();
 
   const defaultSongs: Song[] = [];
   const [songs, setSongs] = useState(defaultSongs);
@@ -36,15 +35,23 @@ export default function Portal() {
       };
       _fetch();
     }
-  }, [session, status, router]);
-
-  if (!session && status === "loading")
-    return (
-      <Layout>
-        <Loading />
-      </Layout>
-    );
-
+  }, [session, status]);
+  const { push } = useRouter();
+  if (!session) {
+    if (status === "unauthenticated") {
+      push("/");
+      return (
+        <Layout>
+          <Loading />
+        </Layout>
+      );
+    } else if (status === "loading")
+      return (
+        <Layout>
+          <Loading />
+        </Layout>
+      );
+  }
   return (
     <Layout>
       <motion.div
@@ -66,10 +73,7 @@ export default function Portal() {
           className="bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]"
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
-          <h1>
-            {session && session.user ? `Welcome ${session.user.name}` : null}
-            {/* {`Welcome ${user.name}`} */}
-          </h1>
+          {`Welcome ${user.name}`}
         </motion.h1>
       </motion.div>
 
