@@ -11,6 +11,9 @@ export default async function handler(
 ) {
   const session = await getSession({ req });
   if (session) {
+    const { id } = req.query;
+    const idNum = Number(id);
+
     const { user } = session;
     const email = user?.email as string;
     const dbUser = await prisma.user.findUnique({
@@ -18,8 +21,9 @@ export default async function handler(
       select: { id: true, email: true },
     });
     const userId = dbUser?.id as number;
-    const songs = await prisma.song.findMany({
-      where: { userId },
+
+    const song = await prisma.song.findUnique({
+      where: { id: idNum },
       select: {
         id: true,
         name: true,
@@ -27,9 +31,14 @@ export default async function handler(
         artist: true,
         duration: true,
         createdAt: true,
+        sections: true,
+        userId: true,
       },
     });
-    res.status(200).json({ songs });
+    if (song?.userId !== userId) {
+      res.status(404).send("cannot access other users data");
+    }
+    res.status(200).json({ song });
   } else {
     // Not Signed in
     res.status(401).send("not signed in");
