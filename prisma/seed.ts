@@ -107,7 +107,21 @@ async function main() {
       },
     },
   });
+
+  const anotherSong = await prisma.song.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      id: 3,
+      userId: 2,
+      name: "sooing",
+      audioUrl: "sooing.mp3",
+      artist: "Dave",
+      duration: 100,
+    },
+  });
 }
+
 main().then(async () => {
   await prisma.$disconnect();
   process.exit(1);

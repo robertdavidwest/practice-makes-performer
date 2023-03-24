@@ -35,8 +35,12 @@ export default async function handler(
         userId: true,
       },
     });
+    if (!song) {
+      res.status(404).send("This page does not exist");
+    }
+    console.log("####");
     if (song?.userId !== userId) {
-      res.status(404).send("cannot access other users data");
+      res.status(401).send("cannot access other users data");
     }
     res.status(200).json({ song });
   } else {

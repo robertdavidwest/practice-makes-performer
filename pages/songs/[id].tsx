@@ -5,10 +5,16 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
+import ErrorPage from "next/error";
+import Loading from "@/components/loading";
 
 const fetcher = ([baseUrl, id]: string[]) => {
   if (id) {
-    return fetch(`${baseUrl}${id}`).then((res) => res.json());
+    return fetch(`${baseUrl}${id}`).then((res) => {
+      const { status } = res;
+      if (res.status === 200) return { status, data: res.json() };
+      else return { status };
+    });
   } else {
     return {};
   }
@@ -17,9 +23,30 @@ const fetcher = ([baseUrl, id]: string[]) => {
 export default function Song() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { push } = router;
   const { id } = router.query;
-  const { data } = useSWR(["/api/song/", id], fetcher);
-  console.log(data);
+  const { data, error } = useSWR(["/api/song/", id], fetcher);
+
+  if (!session) {
+    if (status === "unauthenticated") {
+      push("/");
+      return (
+        <Layout>
+          <Loading />
+        </Layout>
+      );
+    } else if (status === "loading")
+      return (
+        <Layout>
+          <Loading />
+        </Layout>
+      );
+  }
+  if (data && "status" in data && data.status !== 200) {
+    const errStatus = data.status as number;
+    return <ErrorPage statusCode={errStatus} />;
+  }
+
   const features = [
     {
       title: "Built-in Auth + Database",
