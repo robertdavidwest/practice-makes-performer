@@ -14,14 +14,14 @@ import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
 
 import { Song } from "@prisma/client";
+import { StorefrontSharp } from "@mui/icons-material";
 
 interface Data {
   id: number;
   name: string;
   artist: string;
   duration: number;
-  // uploadDate: Date;
-  uploadDate: string;
+  uploadDate: Date;
 }
 
 function createData(
@@ -29,7 +29,7 @@ function createData(
   name: string,
   artist: string,
   duration: number,
-  uploadDate: string,
+  uploadDate: Date,
 ): Data {
   return {
     id,
@@ -39,14 +39,6 @@ function createData(
     uploadDate,
   };
 }
-
-// const rows = [createData("Pride", "Stevie", 100, new Date())];
-const rows = [
-  createData(1, "Pride", "Stevie", 100, "2022/02/15"),
-  createData(2, "Joy", "Dave", 105, "2022/02/05"),
-  createData(3, "Pride", "Stevie", 100, "2022/02/01"),
-  createData(4, "Pride", "Stevie", 100, "2022/02/01"),
-];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -64,8 +56,8 @@ function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key,
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
+  a: { [key in Key]: number | string | Date },
+  b: { [key in Key]: number | string | Date },
 ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -171,11 +163,32 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-// export default function EnhancedTable({ songs }: { songs: Song[] }) {
-export default function EnhancedTable() {
+function prettyDate(date: Date) {
+  return new Date(date).toLocaleDateString("en-us", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+export default function EnhancedTable({ songs }: { songs: Song[] }) {
+  let rows: Data[];
+  if (!songs.length) rows = [];
+  else {
+    rows = songs.map((song) =>
+      createData(
+        song.id,
+        song.name,
+        song.artist,
+        song.duration,
+        song.createdAt,
+      ),
+    );
+  }
+
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -245,7 +258,9 @@ export default function EnhancedTable() {
                       <TableCell align="right">{row.name}</TableCell>
                       <TableCell align="right">{row.artist}</TableCell>
                       <TableCell align="right">{row.duration}</TableCell>
-                      <TableCell align="right">{row.uploadDate}</TableCell>
+                      <TableCell align="right">
+                        {prettyDate(row.uploadDate)}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
