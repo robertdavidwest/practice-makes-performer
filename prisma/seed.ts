@@ -46,7 +46,7 @@ async function main() {
   // });
   // console.log(robert);
 
-  const robertsong = await prisma.song.upsert({
+  const prideAndJoy = await prisma.song.upsert({
     where: { id: 1 },
     update: {},
     create: {
@@ -56,6 +56,37 @@ async function main() {
       audioUrl: "02 - Pride and Joy.mp3",
       artist: "Stevie Ray Vaughan",
       duration: 219.402449,
+      sections: {
+        create: [
+          {
+            label: "intro",
+            start: 0,
+            end: 30,
+            speed: 0.75,
+            loop: true,
+          },
+          {
+            label: "solo",
+            start: 99.01,
+            end: 144.1234,
+            speed: 0.5,
+            loop: true,
+          },
+        ],
+      },
+    },
+  });
+
+  const prideAndJoy2 = await prisma.song.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      id: 2,
+      userId: 1,
+      name: "Pride & Joy2",
+      audioUrl: "02 - Pride and Joy.mp3",
+      artist: "Stevie Ray Vaughan",
+      duration: 100,
       sections: {
         create: [
           {
