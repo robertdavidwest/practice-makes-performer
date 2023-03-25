@@ -1,4 +1,4 @@
-import Card from "@/components/home/card";
+import SongCard from "@/components/song/songCard";
 import ComponentGrid from "@/components/home/component-grid";
 import Layout from "@/components/layout";
 import Image from "next/image";
@@ -74,65 +74,24 @@ export default function Song() {
     );
   }
 
-  const features = [
-    {
-      title: "Built-in Auth + Database",
-      description:
-        "Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)",
-      demo: (
-        <div className="flex items-center justify-center space-x-20">
-          <Image alt="Auth.js logo" src="/authjs.webp" width={50} height={50} />
-          <Image alt="Prisma logo" src="/prisma.svg" width={50} height={50} />
-        </div>
-      ),
-    },
-    {
-      title: "Built-in Auth + Database2",
-      description:
-        "Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)",
-      demo: (
-        <div className="flex items-center justify-center space-x-20">
-          <Image alt="Auth.js logo" src="/authjs.webp" width={50} height={50} />
-          <Image alt="Prisma logo" src="/prisma.svg" width={50} height={50} />
-        </div>
-      ),
-    },
-    {
-      title: "Built-in Auth + Database3",
-      description:
-        "Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)",
-      demo: (
-        <div className="flex items-center justify-center space-x-20">
-          <Image alt="Auth.js logo" src="/authjs.webp" width={50} height={50} />
-          <Image alt="Prisma logo" src="/prisma.svg" width={50} height={50} />
-        </div>
-      ),
-    },
-  ];
-
   return (
     <Layout>
-      <Audio
-        song={song}
-        section={section}
-        audio={createAudioElement()}
-        deletePlayer={deletePlayer}
-      />
-      <div className="my-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
-        {features.map(({ title, description, demo }) => (
-          <Card
-            key={title}
-            title={title}
-            description={description}
-            demo={
-              title === "Beautiful, reusable components" ? (
-                <ComponentGrid />
-              ) : (
-                demo
-              )
-            }
-          />
-        ))}
+      <div className="my-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-2 xl:px-0">
+        {song && song.sections
+          ? song.sections.map((section) => (
+              <SongCard
+                key={section.id}
+                demo={
+                  <Audio
+                    song={song}
+                    section={section}
+                    audio={createAudioElement()}
+                    deletePlayer={deletePlayer}
+                  />
+                }
+              />
+            ))
+          : null}
       </div>
     </Layout>
   );
