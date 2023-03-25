@@ -1,7 +1,6 @@
 import SongCard from "@/components/song/songCard";
-import ComponentGrid from "@/components/home/component-grid";
+import AddNewPlayer from "@/components/song/addNewPlayer";
 import Layout from "@/components/layout";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
@@ -23,6 +22,24 @@ const fetcher = ([baseUrl, id]: string[]) => {
 function createAudioElement() {
   const audio = document.createElement("audio");
   return audio;
+}
+
+async function addNewPlayer() {
+  console.log("add new player");
+
+  // const nextSectionNum = sections.length + 1;
+  // const payload = {
+  //   songId,
+  //   label: `Section ${nextSectionNum}`,
+  //   start: 0,
+  //   end: song.duration,
+  //   playbackRate: 1.0,
+  //   loop: false,
+  // };
+  // await dispatch(createSectionAsync(payload));
+  // payload["inMemoryId"] = sections.length;
+  // console.log(payload.inMemoryId);
+  // dispatch(createSection(payload));
 }
 
 async function deletePlayer(sectionId: number, inMemoryId: number) {
@@ -92,6 +109,7 @@ export default function Song() {
               />
             ))
           : null}
+        <SongCard demo={<AddNewPlayer addNewPlayer={addNewPlayer} />} />
       </div>
     </Layout>
   );
