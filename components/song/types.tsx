@@ -27,3 +27,9 @@ export interface AudioType {
   audio: HTMLAudioElement;
   deletePlayer: (sectionId: number, inMemoryId: number) => void;
 }
+
+export type CreateSection = Omit<Section, "id" | "createdAt" | "updatedAt">;
+
+export interface SongWithSections extends Song {
+  sections: Section[];
+}

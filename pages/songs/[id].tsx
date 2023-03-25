@@ -7,11 +7,8 @@ import useSWR from "swr";
 import ErrorPage from "next/error";
 import Loading from "@/components/loading";
 import Audio from "@/components/song/audio";
-import { Section, Song as SongType } from "@prisma/client";
-
-interface SongWithSections extends SongType {
-  sections: Section[];
-}
+import { SongWithSections } from "@/components/song/types";
+import { CreateSection } from "@/components/song/types";
 
 const fetcher = ([baseUrl, id]: string[]) => {
   if (id) {
@@ -24,22 +21,17 @@ function createAudioElement() {
   return audio;
 }
 
-async function addNewPlayer() {
-  console.log("add new player");
-
-  // const nextSectionNum = sections.length + 1;
-  // const payload = {
-  //   songId,
-  //   label: `Section ${nextSectionNum}`,
-  //   start: 0,
-  //   end: song.duration,
-  //   playbackRate: 1.0,
-  //   loop: false,
-  // };
-  // await dispatch(createSectionAsync(payload));
-  // payload["inMemoryId"] = sections.length;
-  // console.log(payload.inMemoryId);
-  // dispatch(createSection(payload));
+async function createSection(payload: CreateSection) {
+  const response = await fetch("/api/sections", {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  const { status } = response;
+  return { data, status };
 }
 
 async function deletePlayer(sectionId: number, inMemoryId: number) {
@@ -55,7 +47,8 @@ export default function Song() {
   const router = useRouter();
   const { push } = router;
   const { id } = router.query;
-  const { data } = useSWR(["/api/song/", id], fetcher);
+
+  const { data, mutate } = useSWR(["/api/song/", id], fetcher);
   if (!session) {
     if (status === "unauthenticated") {
       push("/");
@@ -77,18 +70,31 @@ export default function Song() {
   }
 
   let song: SongWithSections;
-  let section: Section;
   if (data && data.song) {
     song = data.song;
-    section = song.sections[0];
   } else {
     song = {} as SongWithSections;
-    section = {} as Section;
     return (
       <Layout>
         <Loading />
       </Layout>
     );
+  }
+
+  async function addNewPlayer() {
+    const nextSectionNum = song.sections.length + 1;
+    const label = `Section ${nextSectionNum}`;
+    const start = 0;
+    const end = song.duration;
+    const speed = 1;
+    const songId = Number(id);
+    const loop = true;
+    const payload = { label, start, end, speed, songId, loop };
+    const { data, status } = await createSection(payload);
+    if (status === 201) {
+      song.sections.push(data);
+      mutate({ song });
+    }
   }
 
   return (
