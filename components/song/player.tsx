@@ -75,7 +75,7 @@ export default function Player({
   const [startSeconds, setStartSeconds] = React.useState(0);
   const [endMinutes, setEndMinutes] = React.useState(maxMins);
   const [endSeconds, setEndSeconds] = React.useState(remainingSeconds);
-
+  const [disableSave, setDisableSave] = React.useState(true);
   const [sectionLabel, setSectionLabel] = React.useState(label);
 
   const changeMinutes = (value: number, startOrEnd: "start" | "end") => {
@@ -121,6 +121,7 @@ export default function Player({
     // ensure start time never after end time
     numValue = Math.min(numValue, endMinutes);
     changeMinutes(numValue, "start");
+    setDisableSave(false);
   };
 
   const changeStartSeconds = (value: string) => {
@@ -129,6 +130,7 @@ export default function Player({
     const maxValue = end - startMinutes * 60;
     numValue = Math.min(numValue, maxValue);
     changeSeconds(numValue, "start");
+    setDisableSave(false);
   };
 
   const changeEndMinutes = (value: string) => {
@@ -136,6 +138,7 @@ export default function Player({
     // ensure start time never after end time
     numValue = Math.max(numValue, startMinutes);
     changeMinutes(numValue, "end");
+    setDisableSave(false);
   };
 
   const changeEndSeconds = (value: string) => {
@@ -144,6 +147,7 @@ export default function Player({
     const minValue = start - endMinutes * 60;
     numValue = Math.max(numValue, minValue);
     changeSeconds(numValue, "end");
+    setDisableSave(false);
   };
 
   React.useEffect(() => {
@@ -170,37 +174,50 @@ export default function Player({
 
   return (
     <Widget>
-      <IconButton
-        aria-label="delete"
-        size="large"
-        onClick={() => deletePlayer(sectionId)}
-      >
-        <DeleteIcon fontSize="inherit" />
-      </IconButton>
-      <IconButton
-        aria-label="save"
-        size="large"
-        onClick={() =>
-          savePlayer({
-            label: sectionLabel,
-            start,
-            end,
-            speed,
-            loop,
-            id: sectionId,
-          })
-        }
-      >
-        <SaveIcon fontSize="inherit" />
-      </IconButton>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <TextField
+          size="small"
+          label="Section"
+          variant="standard"
+          value={sectionLabel}
+          onChange={(e) => {
+            setSectionLabel(e.target.value);
+            setDisableSave(false);
+          }}
+        />
+        <div>
+          <IconButton
+            disabled={disableSave}
+            aria-label="save"
+            size="large"
+            onClick={() => {
+              setDisableSave(true);
+              savePlayer({
+                label: sectionLabel,
+                start,
+                end,
+                speed,
+                loop,
+                id: sectionId,
+              });
+            }}
+          >
+            {disableSave ? (
+              <SaveIcon color="disabled" fontSize="inherit" />
+            ) : (
+              <SaveIcon color="primary" fontSize="inherit" />
+            )}
+          </IconButton>
+          <IconButton
+            aria-label="delete"
+            size="large"
+            onClick={() => deletePlayer(sectionId)}
+          >
+            <DeleteIcon fontSize="inherit" />
+          </IconButton>
+        </div>
+      </Box>
 
-      <TextField
-        size="small"
-        label="Section"
-        variant="standard"
-        value={sectionLabel}
-        onChange={(e) => setSectionLabel(e.target.value)}
-      />
       <Grid
         container
         spacing={2}
@@ -343,7 +360,13 @@ export default function Player({
             <PlayArrowIcon sx={{ height: 38, width: 38 }} />
           )}
         </IconButton>
-        <IconButton aria-label="loop" onClick={toggleLoop}>
+        <IconButton
+          aria-label="loop"
+          onClick={() => {
+            toggleLoop();
+            setDisableSave(false);
+          }}
+        >
           {loop ? <LoopIcon sx={{ color: "lightgreen" }} /> : <LoopIcon />}
         </IconButton>
       </Box>
