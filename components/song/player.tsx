@@ -52,7 +52,7 @@ export default function Player({
   };
 
   React.useEffect(() => {
-    setPosition(Math.round(currentTime));
+    setPosition(currentTime);
   }, [currentTime]);
 
   const theme = useTheme();

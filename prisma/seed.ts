@@ -120,6 +120,31 @@ async function main() {
       duration: 100,
     },
   });
+
+  const shine = await prisma.song.upsert({
+    where: { id: 4 },
+    update: {},
+    create: {
+      id: 4,
+      userId: 1,
+      name: "Shine",
+      audioUrl:
+        "https://ia601904.us.archive.org/33/items/pink-floyd-shine-on-you-crazy-diamond/Pink%20Floyd%20-%20Shine%20On%20You%20Crazy%20Diamond.mp3",
+      artist: "Pink Floyd",
+      duration: 500,
+      sections: {
+        create: [
+          {
+            label: "intro",
+            start: 15,
+            end: 150,
+            speed: 1.0,
+            loop: true,
+          },
+        ],
+      },
+    },
+  });
 }
 
 main().then(async () => {

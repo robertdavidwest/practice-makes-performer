@@ -6,7 +6,7 @@ const Audio = ({ song, section, audio, deletePlayer }: AudioType) => {
   const [loaded, setLoaded] = useState(false);
   const [duration, setDuration] = useState(0);
   const [start, setStart] = useState(0);
-  const [end, setEnd] = useState(duration);
+  const [end, setEnd] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [loop, setLoop] = useState(false);
@@ -86,14 +86,14 @@ const Audio = ({ song, section, audio, deletePlayer }: AudioType) => {
     false,
   );
 
-  useEffect(() => {
-    const wasPlaying = isPlaying;
-    load();
-    if (wasPlaying) play();
-  }, [start, end, isPlaying, load, play]);
+  // useEffect(() => {
+  //   const wasPlaying = isPlaying;
+  //   load();
+  //   if (wasPlaying) play();
+  // }, [start, end, isPlaying, load, play]);
 
   useEffect(() => {
-    if (audio.currentTime >= end) {
+    if (end !== 0 && audio.currentTime >= end) {
       setIsPlaying(false);
       load();
       if (loop) play();

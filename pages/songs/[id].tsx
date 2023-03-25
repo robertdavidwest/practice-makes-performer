@@ -22,7 +22,6 @@ const fetcher = ([baseUrl, id]: string[]) => {
 
 function createAudioElement() {
   const audio = document.createElement("audio");
-  audio.play();
   return audio;
 }
 
