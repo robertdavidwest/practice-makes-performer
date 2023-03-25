@@ -13,7 +13,7 @@ export default async function handler(
   const session = await getSession({ req });
   if (session) {
     if (req.method === "GET") getSong(session, req, res);
-    else if (req.method === "POST") postSong(session, req, res);
+    else if (req.method === "PUT") putSong(session, req, res);
   } else {
     // Not Signed in
     res.status(401).json({
@@ -64,7 +64,7 @@ async function getSong(
   res.status(200).json({ song });
 }
 
-async function postSong(
+async function putSong(
   session: Session,
   req: NextApiRequest,
   res: NextApiResponse,
