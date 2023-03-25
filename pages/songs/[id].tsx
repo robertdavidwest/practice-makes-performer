@@ -10,6 +10,7 @@ import Audio from "@/components/song/audio";
 import { SongWithSections } from "@/components/song/types";
 import { CreateSection, UpdateSection } from "@/components/song/types";
 import { Section } from "@prisma/client";
+import SongHeader from "@/components/song/header";
 
 const fetcher = ([baseUrl, id]: string[]) => {
   if (id) {
@@ -144,6 +145,7 @@ export default function Song() {
   return (
     <Layout>
       <div className="my-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-2 xl:px-0">
+        <SongCard large={true} demo={<SongHeader song={song} />} />
         {song && song.sections
           ? song.sections.map((section) => (
               <SongCard
