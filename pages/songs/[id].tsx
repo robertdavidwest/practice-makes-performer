@@ -8,7 +8,7 @@ import ErrorPage from "next/error";
 import Loading from "@/components/loading";
 import Audio from "@/components/song/audio";
 import { SongWithSections } from "@/components/song/types";
-import { CreateSection } from "@/components/song/types";
+import { CreateSection, UpdateSection } from "@/components/song/types";
 import { Section } from "@prisma/client";
 
 const fetcher = ([baseUrl, id]: string[]) => {
@@ -20,6 +20,19 @@ const fetcher = ([baseUrl, id]: string[]) => {
 function createAudioElement() {
   const audio = document.createElement("audio");
   return audio;
+}
+
+async function updateSection(payload: UpdateSection) {
+  const response = await fetch(`/api/section/${payload.id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  const { status } = response;
+  return { data, status };
 }
 
 async function createSection(payload: CreateSection) {
@@ -124,6 +137,10 @@ export default function Song() {
     }
   }
 
+  async function savePlayer(payload: UpdateSection) {
+    updateSection(payload);
+  }
+
   return (
     <Layout>
       <div className="my-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-2 xl:px-0">
@@ -136,6 +153,7 @@ export default function Song() {
                     song={song}
                     section={section}
                     audio={createAudioElement()}
+                    savePlayer={savePlayer}
                     deletePlayer={deletePlayer}
                   />
                 }

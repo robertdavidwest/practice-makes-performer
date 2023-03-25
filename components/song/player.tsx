@@ -9,6 +9,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import LoopIcon from "@mui/icons-material/Loop";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import { TextField } from "@mui/material";
@@ -43,6 +44,7 @@ export default function Player({
   setPlayback,
   speed,
   setAudioPlaybackRate,
+  savePlayer,
   deletePlayer,
 }: PlayerType) {
   const setPlaybackManually = (value: number) => {
@@ -175,6 +177,23 @@ export default function Player({
       >
         <DeleteIcon fontSize="inherit" />
       </IconButton>
+      <IconButton
+        aria-label="save"
+        size="large"
+        onClick={() =>
+          savePlayer({
+            label: sectionLabel,
+            start,
+            end,
+            speed,
+            loop,
+            id: sectionId,
+          })
+        }
+      >
+        <SaveIcon fontSize="inherit" />
+      </IconButton>
+
       <TextField
         size="small"
         label="Section"

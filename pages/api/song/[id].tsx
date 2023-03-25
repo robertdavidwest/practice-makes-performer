@@ -10,15 +10,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const session = await getSession({ req });
-  if (session) {
-    if (req.method === "GET") getSong(session, req, res);
-    else if (req.method === "PUT") putSong(session, req, res);
-  } else {
-    // Not Signed in
-    res.status(401).json({
-      error: { message: "not signed in", status: 404 },
-    });
+  try {
+    const session = await getSession({ req });
+    if (session) {
+      if (req.method === "GET") getSong(session, req, res);
+      else if (req.method === "PUT") putSong(session, req, res);
+    } else {
+      // Not Signed in
+      res.status(401).json({
+        error: { message: "not signed in", status: 404 },
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "unexpected  error" });
   }
 }
 

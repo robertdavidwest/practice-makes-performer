@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import Player from "./player";
 import { AudioType } from "./types";
 
-const Audio = ({ song, section, audio, deletePlayer }: AudioType) => {
+const Audio = ({
+  song,
+  section,
+  audio,
+  savePlayer,
+  deletePlayer,
+}: AudioType) => {
   const [loaded, setLoaded] = useState(false);
   const [duration, setDuration] = useState(0);
   const [start, setStart] = useState(0);
@@ -129,6 +135,7 @@ const Audio = ({ song, section, audio, deletePlayer }: AudioType) => {
       setPlayback={setPlayback}
       speed={speed}
       setAudioPlaybackRate={setAudioPlaybackRate}
+      savePlayer={savePlayer}
       deletePlayer={deletePlayer}
     />
   );
