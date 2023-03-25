@@ -109,13 +109,11 @@ const Audio = ({ song, section, audio, deletePlayer }: AudioType) => {
   }, [song, section, setAudioPlaybackRate]);
 
   const sectionId = section.id;
-  const inMemoryId = section.id;
   const label = section.label;
 
   return (
     <Player
       sectionId={sectionId}
-      inMemoryId={inMemoryId}
       label={label}
       restart={startSong}
       start={start}

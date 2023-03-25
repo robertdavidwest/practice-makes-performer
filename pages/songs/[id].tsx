@@ -3,12 +3,13 @@ import AddNewPlayer from "@/components/song/addNewPlayer";
 import Layout from "@/components/layout";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import ErrorPage from "next/error";
 import Loading from "@/components/loading";
 import Audio from "@/components/song/audio";
 import { SongWithSections } from "@/components/song/types";
 import { CreateSection } from "@/components/song/types";
+import { Section } from "@prisma/client";
 
 const fetcher = ([baseUrl, id]: string[]) => {
   if (id) {
@@ -34,12 +35,14 @@ async function createSection(payload: CreateSection) {
   return { data, status };
 }
 
-async function deletePlayer(sectionId: number, inMemoryId: number) {
-  sectionId = Number(sectionId);
-  inMemoryId = Number(inMemoryId);
-  console.log("NEED TO DEELETE THIS ID: ", sectionId);
-  // if (sectionId) await dispatch(deleteSectionAsync(sectionId));
-  // dispatch(deleteSection(inMemoryId));
+async function deleteSection(id: number) {
+  const response = await fetch(`/api/section/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
 }
 
 export default function Song() {
@@ -48,7 +51,7 @@ export default function Song() {
   const { push } = router;
   const { id } = router.query;
 
-  const { data, mutate } = useSWR(["/api/song/", id], fetcher);
+  const { data } = useSWR(["/api/song/", id], fetcher);
   if (!session) {
     if (status === "unauthenticated") {
       push("/");
@@ -92,8 +95,32 @@ export default function Song() {
     const payload = { label, start, end, speed, songId, loop };
     const { data, status } = await createSection(payload);
     if (status === 201) {
-      song.sections.push(data);
-      mutate({ song });
+      mutate(
+        ["/api/song/", id],
+        (cachedData: any) => {
+          cachedData.song.sections.push(data);
+          return cachedData;
+        },
+        true,
+      );
+    }
+  }
+
+  async function deletePlayer(sectionId: number) {
+    sectionId = Number(sectionId);
+    const response = await deleteSection(sectionId);
+
+    if (response.ok) {
+      mutate(
+        ["/api/song/", id],
+        async (cachedData: any) => {
+          cachedData.song.sections = cachedData.song.sections.filter(
+            (section: Section) => section.id !== sectionId,
+          );
+          return cachedData;
+        },
+        true,
+      );
     }
   }
 

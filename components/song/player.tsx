@@ -28,7 +28,6 @@ const TinyText = styled(Typography)({
 
 export default function Player({
   sectionId,
-  inMemoryId,
   label,
   start,
   setStart,
@@ -172,7 +171,7 @@ export default function Player({
       <IconButton
         aria-label="delete"
         size="large"
-        onClick={() => deletePlayer(sectionId, inMemoryId)}
+        onClick={() => deletePlayer(sectionId)}
       >
         <DeleteIcon fontSize="inherit" />
       </IconButton>

@@ -2,7 +2,6 @@ import { Song, Section } from "@prisma/client";
 
 export interface PlayerType {
   sectionId: number;
-  inMemoryId: number;
   label: string;
   start: number;
   setStart: any;
@@ -18,14 +17,14 @@ export interface PlayerType {
   setPlayback: (value: number) => void;
   speed: number;
   setAudioPlaybackRate: (value: number) => void;
-  deletePlayer: (sectionId: number, inMemoryId: number) => void;
+  deletePlayer: (sectionId: number) => void;
 }
 
 export interface AudioType {
   song: Song;
   section: Section;
   audio: HTMLAudioElement;
-  deletePlayer: (sectionId: number, inMemoryId: number) => void;
+  deletePlayer: (sectionId: number) => void;
 }
 
 export type CreateSection = Omit<Section, "id" | "createdAt" | "updatedAt">;
