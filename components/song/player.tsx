@@ -14,7 +14,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import { TextField } from "@mui/material";
 import Grid from "@mui/material/Grid";
-
+import Tooltip from "@mui/material/Tooltip";
 import { Widget } from "./widget";
 import Timer from "./timer";
 
@@ -186,35 +186,39 @@ export default function Player({
           }}
         />
         <div>
-          <IconButton
-            disabled={disableSave}
-            aria-label="save"
-            size="large"
-            onClick={() => {
-              setDisableSave(true);
-              savePlayer({
-                label: sectionLabel,
-                start,
-                end,
-                speed,
-                loop,
-                id: sectionId,
-              });
-            }}
-          >
-            {disableSave ? (
-              <SaveIcon color="disabled" fontSize="inherit" />
-            ) : (
-              <SaveIcon color="primary" fontSize="inherit" />
-            )}
-          </IconButton>
-          <IconButton
-            aria-label="delete"
-            size="large"
-            onClick={() => deletePlayer(sectionId)}
-          >
-            <DeleteIcon fontSize="inherit" />
-          </IconButton>
+          <Tooltip title="Save your Settings">
+            <IconButton
+              disabled={disableSave}
+              aria-label="save"
+              size="large"
+              onClick={() => {
+                setDisableSave(true);
+                savePlayer({
+                  label: sectionLabel,
+                  start,
+                  end,
+                  speed,
+                  loop,
+                  id: sectionId,
+                });
+              }}
+            >
+              {disableSave ? (
+                <SaveIcon color="disabled" fontSize="inherit" />
+              ) : (
+                <SaveIcon color="primary" fontSize="inherit" />
+              )}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete Section">
+            <IconButton
+              aria-label="delete"
+              size="large"
+              onClick={() => deletePlayer(sectionId)}
+            >
+              <DeleteIcon fontSize="inherit" />
+            </IconButton>
+          </Tooltip>
         </div>
       </Box>
 
