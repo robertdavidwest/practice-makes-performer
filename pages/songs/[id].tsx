@@ -8,7 +8,11 @@ import ErrorPage from "next/error";
 import Loading from "@/components/loading";
 import Audio from "@/components/song/audio";
 import { SongWithSections } from "@/components/song/types";
-import { CreateSection, UpdateSection } from "@/components/song/types";
+import {
+  CreateSection,
+  UpdateSection,
+  UpdateSong,
+} from "@/components/song/types";
 import { Section } from "@prisma/client";
 import SongHeader from "@/components/song/header";
 
@@ -36,6 +40,19 @@ async function updateSection(payload: UpdateSection) {
   return { data, status };
 }
 
+async function updateSong(payload: UpdateSong) {
+  const response = await fetch(`/api/song/${payload.id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  const { status } = response;
+  return { data, status };
+}
+
 async function createSection(payload: CreateSection) {
   const response = await fetch("/api/sections", {
     method: "POST",
@@ -51,6 +68,16 @@ async function createSection(payload: CreateSection) {
 
 async function deleteSection(id: number) {
   const response = await fetch(`/api/section/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
+}
+
+async function _deleteSong(id: number) {
+  const response = await fetch(`/api/song/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -121,7 +148,6 @@ export default function Song() {
   }
 
   async function deletePlayer(sectionId: number) {
-    sectionId = Number(sectionId);
     const response = await deleteSection(sectionId);
 
     if (response.ok) {
@@ -142,10 +168,28 @@ export default function Song() {
     updateSection(payload);
   }
 
+  async function deleteSong(id: number) {
+    const response = await _deleteSong(id);
+    push("/");
+  }
+
+  async function saveSong(id: number, name: string, artist: string) {
+    updateSong({ id, name, artist });
+  }
+
   return (
     <Layout>
       <div className="my-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-2 xl:px-0">
-        <SongCard large={true} demo={<SongHeader song={song} />} />
+        <SongCard
+          large={true}
+          demo={
+            <SongHeader
+              song={song}
+              deleteSong={deleteSong}
+              saveSong={saveSong}
+            />
+          }
+        />
         {song && song.sections
           ? song.sections.map((section) => (
               <SongCard

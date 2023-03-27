@@ -6,11 +6,22 @@ import SaveIcon from "@mui/icons-material/Save";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-
-import { HeaderWidget } from "./widget";
+import { useDeleteSongModal } from "./delete-song-modal";
 import { Song } from "@prisma/client";
-import Link from "next/link";
-export default function SongHeader({ song }: { song: Song }) {
+
+export default function SongHeader({
+  song,
+  deleteSong,
+  saveSong,
+}: {
+  song: Song;
+  deleteSong: (id: number) => void;
+  saveSong: (id: number, name: string, artist: string) => void;
+}) {
+  const { DeleteSongModal, setShowDeleteSongModal } = useDeleteSongModal(
+    song,
+    deleteSong,
+  );
   const [songName, setSongName] = React.useState("");
   const [artist, setArtist] = React.useState("");
 
@@ -20,40 +31,43 @@ export default function SongHeader({ song }: { song: Song }) {
   }, [song]);
 
   const [disableSave, setDisableSave] = React.useState(true);
-  const saveSong = () => {};
-  const deleteSong = () => {};
   return (
     <Container sx={{ marginTop: "1rem" }}>
+      <DeleteSongModal />
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h5" color="text.secondary" fontWeight={500}>
           {"Song Settings"}
         </Typography>
         <div>
-          <Tooltip title="Save your Settings">
-            <IconButton
-              disabled={disableSave}
-              aria-label="save"
-              size="large"
-              onClick={() => {
-                setDisableSave(true);
-                saveSong();
-              }}
-            >
-              {disableSave ? (
-                <SaveIcon color="disabled" fontSize="inherit" />
-              ) : (
-                <SaveIcon color="primary" fontSize="inherit" />
-              )}
-            </IconButton>
+          <Tooltip title="Save song Settings">
+            <span>
+              <IconButton
+                disabled={disableSave}
+                aria-label="save"
+                size="large"
+                onClick={() => {
+                  setDisableSave(true);
+                  saveSong(song.id, songName, artist);
+                }}
+              >
+                {disableSave ? (
+                  <SaveIcon color="disabled" fontSize="inherit" />
+                ) : (
+                  <SaveIcon color="primary" fontSize="inherit" />
+                )}
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip title="Delete Song">
-            <IconButton
-              aria-label="delete"
-              size="large"
-              onClick={() => deleteSong()}
-            >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
+            <span>
+              <IconButton
+                aria-label="delete"
+                size="large"
+                onClick={() => setShowDeleteSongModal(true)}
+              >
+                <DeleteIcon fontSize="inherit" />
+              </IconButton>
+            </span>
           </Tooltip>
         </div>
       </Box>

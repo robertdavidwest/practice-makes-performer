@@ -187,28 +187,30 @@ export default function Player({
         />
         <div>
           <Tooltip title="Save your Settings">
-            <IconButton
-              disabled={disableSave}
-              aria-label="save"
-              size="large"
-              onClick={() => {
-                setDisableSave(true);
-                savePlayer({
-                  label: sectionLabel,
-                  start,
-                  end,
-                  speed,
-                  loop,
-                  id: sectionId,
-                });
-              }}
-            >
-              {disableSave ? (
-                <SaveIcon color="disabled" fontSize="inherit" />
-              ) : (
-                <SaveIcon color="primary" fontSize="inherit" />
-              )}
-            </IconButton>
+            <span>
+              <IconButton
+                disabled={disableSave}
+                aria-label="save"
+                size="large"
+                onClick={() => {
+                  setDisableSave(true);
+                  savePlayer({
+                    label: sectionLabel,
+                    start,
+                    end,
+                    speed,
+                    loop,
+                    id: sectionId,
+                  });
+                }}
+              >
+                {disableSave ? (
+                  <SaveIcon color="disabled" fontSize="inherit" />
+                ) : (
+                  <SaveIcon color="primary" fontSize="inherit" />
+                )}
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip title="Delete Section">
             <IconButton

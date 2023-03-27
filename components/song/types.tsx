@@ -1,12 +1,20 @@
+import {
+  useState,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+} from "react";
+
 import { Song, Section } from "@prisma/client";
 
 export interface PlayerType {
   sectionId: number;
   label: string;
   start: number;
-  setStart: any;
+  setStart: Dispatch<SetStateAction<number>>;
   end: number;
-  setEnd: any;
+  setEnd: Dispatch<SetStateAction<number>>;
   duration: number;
   currentTime: number;
   restart: () => void;
@@ -31,6 +39,8 @@ export interface AudioType {
 
 export type CreateSection = Omit<Section, "id" | "createdAt" | "updatedAt">;
 export type UpdateSection = Omit<Section, "songId" | "createdAt" | "updatedAt">;
+
+export type UpdateSong = Pick<Song, "id" | "name" | "artist">;
 
 export interface SongWithSections extends Song {
   sections: Section[];
