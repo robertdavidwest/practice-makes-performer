@@ -17,7 +17,7 @@ import Grid from "@mui/material/Grid";
 import Tooltip from "@mui/material/Tooltip";
 import { Widget } from "./widget";
 import Timer from "./timer";
-
+import PlayerLoading from "./playerLoading";
 import { PlayerType } from "./types";
 
 const TinyText = styled(Typography)({
@@ -46,6 +46,7 @@ export default function Player({
   setAudioPlaybackRate,
   savePlayer,
   deletePlayer,
+  loading,
 }: PlayerType) {
   const setPlaybackManually = (value: number) => {
     setPlayback(value);
@@ -171,6 +172,10 @@ export default function Player({
     setEndMinutes(mins);
     setEndSeconds(secs);
   }, [end]);
+
+  if (loading) {
+    return <PlayerLoading />;
+  }
 
   return (
     <Widget>

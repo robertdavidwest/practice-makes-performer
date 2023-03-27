@@ -6,7 +6,6 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import Image from "next/image";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { Song } from "@prisma/client";

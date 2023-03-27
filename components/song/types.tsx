@@ -27,6 +27,7 @@ export interface PlayerType {
   setAudioPlaybackRate: (value: number) => void;
   deletePlayer: (sectionId: number) => void;
   savePlayer: (payload: UpdateSection) => void;
+  loading: boolean;
 }
 
 export interface AudioType {
@@ -35,6 +36,7 @@ export interface AudioType {
   audio: HTMLAudioElement;
   savePlayer: (payload: UpdateSection) => void;
   deletePlayer: (sectionId: number) => void;
+  loading: boolean;
 }
 
 export type CreateSection = Omit<Section, "id" | "createdAt" | "updatedAt">;

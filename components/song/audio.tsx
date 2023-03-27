@@ -17,7 +17,7 @@ const Audio = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [loop, setLoop] = useState(false);
   const [speed, setSpeed] = useState(1.0);
-
+  const [loading, setLoading] = useState(false);
   const addSrc = React.useCallback(() => {
     let src = song.audioUrl;
     let _start;
@@ -49,12 +49,14 @@ const Audio = ({
   );
 
   const load = React.useCallback(async () => {
+    setLoading(true);
     addSrc();
     audio.load();
     setLoaded(true);
     audio.onloadedmetadata = function () {
       const orig = Math.round(audio.duration);
       setDuration(orig);
+      setLoading(false);
     };
     setAudioPlaybackRate(speed);
   }, [audio, addSrc, speed, setAudioPlaybackRate]);
@@ -137,6 +139,7 @@ const Audio = ({
       setAudioPlaybackRate={setAudioPlaybackRate}
       savePlayer={savePlayer}
       deletePlayer={deletePlayer}
+      loading={loading}
     />
   );
 };
