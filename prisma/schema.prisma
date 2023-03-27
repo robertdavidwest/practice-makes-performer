@@ -16,7 +16,7 @@ model Section {
   end       Float
   speed     Float
   loop      Boolean
-  song      Song     @relation(fields: [songId], references: [id])
+  song      Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -30,7 +30,7 @@ model Song {
   audioUrl  String
   artist    String
   duration  Float
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   sections  Section[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
