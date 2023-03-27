@@ -2,7 +2,6 @@ import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
@@ -21,7 +20,6 @@ export default function Layout({
 }) {
   const { data: session, status } = useSession();
   const scrolled = useScroll(5);
-
   return (
     <>
       <Meta {...meta} />
@@ -34,7 +32,12 @@ export default function Layout({
         } z-30 transition-all`}
       >
         <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
-          <Link href="/" className="flex items-center font-display text-2xl">
+          <button
+            className="flex items-center font-display text-2xl"
+            onClick={() => {
+              window.location.href = "/";
+            }}
+          >
             <Image
               src="/logo.png"
               alt="Precedent logo"
@@ -43,7 +46,7 @@ export default function Layout({
               className="mr-2 rounded-sm"
             ></Image>
             <p>Practice. Makes. Performer</p>
-          </Link>
+          </button>
           <div>
             <AnimatePresence>
               {!session && status !== "loading" ? (
