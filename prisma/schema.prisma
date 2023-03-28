@@ -16,7 +16,7 @@ model Section {
   end          Float
   speed        Float
   loop         Boolean
-  showMeasures Boolean
+  showMeasures Boolean  @default(false)
   song         Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
