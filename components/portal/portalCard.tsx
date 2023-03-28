@@ -1,6 +1,12 @@
 import { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import Balancer from "react-wrap-balancer";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { IconButton } from "@mui/material";
+import { Tooltip } from "@mui/material";
+import { useUploadSongModal } from "./upload-song-modal";
+import { Button } from "@mui/material";
+import { handleAuthClick, handleSignoutClick } from "@/lib/googleDrive";
 
 export default function PortalCard({
   title,
@@ -21,6 +27,12 @@ export default function PortalCard({
     >
       <div className="mx-auto max-w-md text-center">
         <br />
+        <Tooltip title="Upload an mp3 file">
+          <IconButton aria-label="upload-file" size="large" onClick={() => {}}>
+            <CloudUploadIcon fontSize="inherit" />
+          </IconButton>
+        </Tooltip>
+
         <h2 className="bg-gradient-to-br from-black to-stone-500 bg-clip-text font-display text-xl font-bold text-transparent md:text-3xl md:font-normal">
           <Balancer>{title}</Balancer>
         </h2>
