@@ -11,7 +11,8 @@ import { Container } from "@mui/material";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { User, Song } from "@prisma/client";
-import useSWR from "swr";
+import { CreateSong } from "@/components/song/types";
+import useSWR, { mutate } from "swr";
 
 const fetcher = (key: string) => fetch(key).then((res) => res.json());
 
@@ -43,6 +44,17 @@ export default function Portal() {
     songs = data.songs;
   }
 
+  async function appendToSongs(song: CreateSong) {
+    mutate(
+      "/api/songs",
+      (cachedData: any) => {
+        cachedData.songs.push(song);
+        return cachedData;
+      },
+      true,
+    );
+  }
+
   return (
     <Layout>
       <motion.div
@@ -68,12 +80,12 @@ export default function Portal() {
         </motion.h1>
       </motion.div>
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
-      {/* <div className="my-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0"> */}
       <div className="my-10 w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
         <PortalCard
           key={features[0].title}
           title={features[0].title}
           description={features[0].description}
+          appendToSongs={appendToSongs}
           demo={
             <Container>
               <EnhancedTable songs={songs} />{" "}

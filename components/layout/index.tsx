@@ -7,6 +7,11 @@ import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
 import UserDropdown from "./user-dropdown";
 
+import Typography from "@mui/material/Typography";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import IconButton from "@mui/material/IconButton";
+import Link from "@mui/material/Link";
+
 export default function Layout({
   meta,
   children,
@@ -68,15 +73,22 @@ export default function Layout({
         {children}
       </main>
       <div className="absolute w-full border-t border-gray-200 bg-white py-5 text-center">
+        <a
+          href="https://github.com/robertdavidwest/practice-makes-performer"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <GitHubIcon />
+        </a>
         <p className="text-gray-500">
-          A free template by{" "}
+          Practice makes performer. By{" "}
           <a
             className="font-medium text-gray-800 underline transition-colors"
-            href="https://twitter.com/steventey"
+            href="https://robertdavidwest.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Steven Tey
+            Robert West
           </a>
         </p>
       </div>

@@ -39,8 +39,10 @@ export interface AudioType {
 }
 
 export type CreateSection = Omit<Section, "id" | "createdAt" | "updatedAt">;
+
 export type UpdateSection = Omit<Section, "songId" | "createdAt" | "updatedAt">;
 
+export type CreateSong = Omit<Song, "id" | "createdAt" | "updatedAt">;
 export type UpdateSong = Pick<Song, "id" | "name" | "artist">;
 
 export interface SongWithSections extends Song {

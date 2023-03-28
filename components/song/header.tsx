@@ -93,11 +93,6 @@ export default function SongHeader({
             setDisableSave(false);
           }}
         />
-        <br />
-        <br />
-        <p>
-          URL: <a href={song.audioUrl}>{song.audioUrl}</a>
-        </p>
       </Container>
     </Container>
   );

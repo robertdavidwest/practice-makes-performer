@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { getSession } from "next-auth/react";
 import { Session } from "next-auth";
+import { CreateSong } from "@/components/song/types";
 
 const prisma = new PrismaClient();
 
@@ -51,4 +52,24 @@ async function postSong(
   session: Session,
   req: NextApiRequest,
   res: NextApiResponse,
-) {}
+) {
+  const { name, audioUrl, artist, duration, userId } = req.body;
+  const data: CreateSong = { name, audioUrl, artist, duration, userId };
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { email: true },
+  });
+  if (!user) {
+    res.status(400).json({ message: `userId: ${userId} doesnt exist` });
+  } else if (session.user && session.user.email !== user.email) {
+    res
+      .status(401)
+      .json({ message: "Cannot create song on anoter user account" });
+  } else {
+    console.log(data);
+    const newSong = await prisma.song.create({
+      data,
+    });
+    res.status(201).json(newSong);
+  }
+}
