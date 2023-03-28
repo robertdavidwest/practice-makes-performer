@@ -9,16 +9,17 @@ generator client {
 }
 
 model Section {
-  id        Int      @id @default(autoincrement())
-  songId    Int
-  label     String
-  start     Float
-  end       Float
-  speed     Float
-  loop      Boolean
-  song      Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  songId       Int
+  label        String
+  start        Float
+  end          Float
+  speed        Float
+  loop         Boolean
+  showMeasures Boolean
+  song         Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@index([songId])
 }

@@ -35,7 +35,7 @@ const DeleteSongModal = ({
           </p>
           <Stack direction="row" spacing={2}>
             <Button
-              variant="contained"
+              variant="outlined"
               color="error"
               onClick={() => {
                 deleteSong(song.id);

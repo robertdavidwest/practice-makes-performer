@@ -11,12 +11,14 @@ export default function PortalCard({
   demo,
   large,
   appendToSongs,
+  userId,
 }: {
   title: string;
   description: string;
   demo: ReactNode;
   large?: boolean;
   appendToSongs: (song: CreateSong) => Promise<void>;
+  userId: number;
 }) {
   return (
     <div
@@ -26,7 +28,7 @@ export default function PortalCard({
     >
       <div className="mx-auto max-w-md text-center">
         <br />
-        <UploadSongFormModal appendToSongs={appendToSongs} />
+        <UploadSongFormModal appendToSongs={appendToSongs} userId={userId} />
         <h2 className="bg-gradient-to-br from-black to-stone-500 bg-clip-text font-display text-xl font-bold text-transparent md:text-3xl md:font-normal">
           <Balancer>{title}</Balancer>
         </h2>

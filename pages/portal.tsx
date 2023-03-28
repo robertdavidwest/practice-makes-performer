@@ -21,6 +21,12 @@ export default function Portal() {
   const { push } = useRouter();
   const { data } = useSWR("/api/songs", fetcher);
 
+  const response = useSWR("/api/user", fetcher);
+  let userId: number;
+  if (response.data) {
+    userId = response.data.userId;
+  }
+
   let user = {} as User;
   if (!session) {
     if (status === "unauthenticated") {
@@ -86,6 +92,7 @@ export default function Portal() {
           title={features[0].title}
           description={features[0].description}
           appendToSongs={appendToSongs}
+          userId={userId}
           demo={
             <Container>
               <EnhancedTable songs={songs} />{" "}
