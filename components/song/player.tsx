@@ -368,25 +368,33 @@ export default function Player({
           mt: -1,
         }}
       >
-        <IconButton aria-label="restart" onClick={restart}>
-          <RestartAltIcon />
-        </IconButton>
+        <Tooltip title="Restart">
+          <IconButton aria-label="restart" onClick={restart}>
+            <RestartAltIcon />
+          </IconButton>
+        </Tooltip>
         <IconButton aria-label="play/pause" onClick={loadPlayPause}>
           {isPlaying ? (
-            <PauseIcon sx={{ height: 38, width: 38 }} />
+            <Tooltip title="Pause">
+              <PauseIcon sx={{ height: 38, width: 38 }} />
+            </Tooltip>
           ) : (
-            <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+            <Tooltip title="Play">
+              <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+            </Tooltip>
           )}
         </IconButton>
-        <IconButton
-          aria-label="loop"
-          onClick={() => {
-            toggleLoop();
-            setDisableSave(false);
-          }}
-        >
-          {loop ? <LoopIcon sx={{ color: "lightgreen" }} /> : <LoopIcon />}
-        </IconButton>
+        <Tooltip title="Loop">
+          <IconButton
+            aria-label="loop"
+            onClick={() => {
+              toggleLoop();
+              setDisableSave(false);
+            }}
+          >
+            {loop ? <LoopIcon sx={{ color: "lightgreen" }} /> : <LoopIcon />}
+          </IconButton>
+        </Tooltip>
       </Box>
       <Stack
         spacing={2}
@@ -396,31 +404,34 @@ export default function Player({
       >
         <SlowMotionVideoIcon htmlColor={lightIconColor} />
         <TinyText>{speed}</TinyText>
-        <Slider
-          aria-label="Speed"
-          value={speed}
-          min={0}
-          step={0.1}
-          max={2}
-          onChange={(_, value) => setAudioPlaybackRate(value as number)}
-          sx={{
-            color: theme.palette.mode === "dark" ? "#fff" : "rgba(0,0,0,0.87)",
-            "& .MuiSlider-track": {
-              border: "none",
-            },
-            "& .MuiSlider-thumb": {
-              width: 24,
-              height: 24,
-              backgroundColor: "#fff",
-              "&:before": {
-                boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+        <Tooltip title="Adjust Speed">
+          <Slider
+            aria-label="Speed"
+            value={speed}
+            min={0}
+            step={0.1}
+            max={2}
+            onChange={(_, value) => setAudioPlaybackRate(value as number)}
+            sx={{
+              color:
+                theme.palette.mode === "dark" ? "#fff" : "rgba(0,0,0,0.87)",
+              "& .MuiSlider-track": {
+                border: "none",
               },
-              "&:hover, &.Mui-focusVisible, &.Mui-active": {
-                boxShadow: "none",
+              "& .MuiSlider-thumb": {
+                width: 24,
+                height: 24,
+                backgroundColor: "#fff",
+                "&:before": {
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+                },
+                "&:hover, &.Mui-focusVisible, &.Mui-active": {
+                  boxShadow: "none",
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </Tooltip>
       </Stack>
     </Widget>
   );

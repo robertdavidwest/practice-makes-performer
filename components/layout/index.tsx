@@ -7,10 +7,7 @@ import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
 import UserDropdown from "./user-dropdown";
 
-import Typography from "@mui/material/Typography";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
 
 export default function Layout({
   meta,

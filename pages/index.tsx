@@ -13,6 +13,9 @@ import { getSession } from "next-auth/react";
 import { Container } from "@mui/material";
 import EnhancedTable from "@/components/portal/songsTable";
 import { sampleSongs } from "sampleData/song";
+import Link from "next/link";
+import { IconButton, Tooltip } from "@mui/material";
+import { useSession, signIn } from "next-auth/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
@@ -44,7 +47,8 @@ export default function Home() {
       >
         <motion.a
           variants={FADE_DOWN_ANIMATION_VARIANTS}
-          href="https://twitter.com/steventey/status/1613928948915920896"
+          // href="https://twitter.com/steventey/status/1613928948915920896"
+          href="https://twitter.com/robertdavidwest"
           target="_blank"
           rel="noreferrer"
           className="max-w-it mx-auto mb-5 flex items-center justify-center space-x-2 overflow-hidden rounded-full bg-blue-100 px-7 py-2 transition-colors hover:bg-blue-200"
@@ -76,28 +80,20 @@ export default function Home() {
           className="mx-auto mt-6 flex items-center justify-center space-x-5"
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
-          <a
+          <Link
             className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
-            href={DEPLOY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/demoSongs/0"
           >
-            <svg
-              className="h-4 w-4 group-hover:text-black"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 4L20 20H4L12 4Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
             <p>Try it out!</p>
-          </a>
+          </Link>
+          <Tooltip title="With an account you can save your settings, come back and practice anytime">
+            <IconButton
+              className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-purple-700 px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
+              onClick={() => signIn("auth0")}
+            >
+              <p>Create An Account</p>
+            </IconButton>
+          </Tooltip>
         </motion.div>
       </motion.div>
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}

@@ -76,7 +76,9 @@ export default function SongHeader({
         </div>
       </Box>
 
-      <Container sx={{ margin: "2rem" }}>
+      <Container
+        sx={{ margin: "2rem", display: "flex", flexDirection: "column" }}
+      >
         <TextField
           size="small"
           label="Song Name"
@@ -87,6 +89,7 @@ export default function SongHeader({
             setDisableSave(false);
           }}
         />
+        <br />
         <TextField
           size="small"
           label="Artist"
