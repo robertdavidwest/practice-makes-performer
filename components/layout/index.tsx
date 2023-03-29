@@ -78,7 +78,7 @@ export default function Layout({
           <GitHubIcon />
         </a>
         <p className="text-gray-500">
-          Practice makes performer. By{" "}
+          Practice Makes Performer. By{" "}
           <a
             className="font-medium text-gray-800 underline transition-colors"
             href="https://robertdavidwest.com"
