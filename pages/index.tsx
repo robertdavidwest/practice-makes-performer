@@ -1,14 +1,18 @@
 import Card from "@/components/home/card";
+import PortalCard from "@/components/portal/portalCard";
 import Layout from "@/components/layout";
 import Balancer from "react-wrap-balancer";
 import { motion } from "framer-motion";
 import { DEPLOY_URL, FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
-import { Github, Twitter } from "@/components/shared/icons";
+import { Twitter } from "@/components/shared/icons";
 import WebVitals from "@/components/home/web-vitals";
 import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
+import { Container } from "@mui/material";
+import EnhancedTable from "@/components/portal/songsTable";
+import { sampleSongs } from "sampleData/song";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
@@ -94,43 +98,47 @@ export default function Home() {
             </svg>
             <p>Try it out!</p>
           </a>
-          <a
-            className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800"
-            href="https://github.com/robertdavidwest/practice-makes-performer"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Github />
-            <p>Star on GitHub</p>
-          </a>
         </motion.div>
       </motion.div>
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
       <div className="my-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
-        {features.map(({ title, description, demo, large }) => (
-          <Card
-            key={title}
-            title={title}
-            description={description}
-            demo={
-              title === "Beautiful, reusable components" ? (
-                <ComponentGrid />
-              ) : (
-                demo
-              )
-            }
-            large={large}
-          />
-        ))}
+        {features.map(({ title, description, demo, large }) =>
+          title === "Sample Song Library" ? (
+            <PortalCard
+              key={title}
+              title={title}
+              description={description}
+              demo={
+                <Container>
+                  <EnhancedTable demo={true} songs={sampleSongs} />{" "}
+                </Container>
+              }
+              large={true}
+            />
+          ) : (
+            <Card
+              key={title}
+              title={title}
+              description={description}
+              demo={
+                title === "Beautiful, reusable components" ? (
+                  <ComponentGrid />
+                ) : (
+                  demo
+                )
+              }
+              large={large}
+            />
+          ),
+        )}
       </div>
     </Layout>
   );
 }
 const features = [
   {
-    title: "Beautiful, reusable components",
-    description:
-      "Pre-built beautiful, a11y-first components, powered by [Tailwind CSS](https://tailwindcss.com/), [Radix UI](https://www.radix-ui.com/), and [Framer Motion](https://framer.com/motion)",
+    title: "Sample Song Library",
+    description: "Select one of your songs below to begin practicing",
     large: true,
   },
   {

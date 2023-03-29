@@ -1,5 +1,4 @@
 import PortalCard from "@/components/portal/portalCard";
-import Card from "@/components/home/card";
 import Layout from "@/components/layout";
 import Loading from "@/components/loading";
 import { motion } from "framer-motion";
@@ -100,7 +99,7 @@ export default function Portal() {
           demo={
             songs.length ? (
               <Container>
-                <EnhancedTable songs={songs} />{" "}
+                <EnhancedTable demo={false} songs={songs} />{" "}
               </Container>
             ) : null
           }

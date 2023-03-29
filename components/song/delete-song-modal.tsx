@@ -19,8 +19,9 @@ const DeleteSongModal = ({
   showDeleteSongModal: boolean;
   setShowDeleteSongModal: Dispatch<SetStateAction<boolean>>;
   song: Song;
-  deleteSong: (id: number) => void;
+  deleteSong?: (id: number) => void;
 }) => {
+  if (!deleteSong) return null;
   return (
     <Modal
       showModal={showDeleteSongModal}
@@ -60,7 +61,7 @@ const DeleteSongModal = ({
 
 export function useDeleteSongModal(
   song: Song,
-  deleteSong: (id: number) => void,
+  deleteSong?: (id: number) => void,
 ) {
   const [showDeleteSongModal, setShowDeleteSongModal] = useState(false);
 

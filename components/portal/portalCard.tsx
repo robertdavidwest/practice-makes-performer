@@ -17,8 +17,8 @@ export default function PortalCard({
   description: string;
   demo: ReactNode;
   large?: boolean;
-  appendToSongs: (song: CreateSong) => Promise<void>;
-  userId: number;
+  appendToSongs?: (song: CreateSong) => Promise<void>;
+  userId?: number;
 }) {
   return (
     <div
@@ -28,7 +28,9 @@ export default function PortalCard({
     >
       <div className="mx-auto max-w-md text-center">
         <br />
-        <UploadSongFormModal appendToSongs={appendToSongs} userId={userId} />
+        {appendToSongs && userId ? (
+          <UploadSongFormModal appendToSongs={appendToSongs} userId={userId} />
+        ) : null}
         <h2 className="bg-gradient-to-br from-black to-stone-500 bg-clip-text font-display text-xl font-bold text-transparent md:text-3xl md:font-normal">
           <Balancer>{title}</Balancer>
         </h2>

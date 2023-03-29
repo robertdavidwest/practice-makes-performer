@@ -15,8 +15,8 @@ export default function SongHeader({
   saveSong,
 }: {
   song: Song;
-  deleteSong: (id: number) => void;
-  saveSong: (id: number, name: string, artist: string) => void;
+  deleteSong?: (id: number) => void;
+  saveSong?: (id: number, name: string, artist: string) => void;
 }) {
   const { DeleteSongModal, setShowDeleteSongModal } = useDeleteSongModal(
     song,
@@ -39,36 +39,40 @@ export default function SongHeader({
           {"Song Settings"}
         </Typography>
         <div>
-          <Tooltip title="Save song Settings">
-            <span>
-              <IconButton
-                disabled={disableSave}
-                aria-label="save"
-                size="large"
-                onClick={() => {
-                  setDisableSave(true);
-                  saveSong(song.id, songName, artist);
-                }}
-              >
-                {disableSave ? (
-                  <SaveIcon color="disabled" fontSize="inherit" />
-                ) : (
-                  <SaveIcon color="primary" fontSize="inherit" />
-                )}
-              </IconButton>
-            </span>
-          </Tooltip>
-          <Tooltip title="Delete Song">
-            <span>
-              <IconButton
-                aria-label="delete"
-                size="large"
-                onClick={() => setShowDeleteSongModal(true)}
-              >
-                <DeleteIcon fontSize="inherit" />
-              </IconButton>
-            </span>
-          </Tooltip>
+          {saveSong ? (
+            <Tooltip title="Save song Settings">
+              <span>
+                <IconButton
+                  disabled={disableSave}
+                  aria-label="save"
+                  size="large"
+                  onClick={() => {
+                    setDisableSave(true);
+                    saveSong(song.id, songName, artist);
+                  }}
+                >
+                  {disableSave ? (
+                    <SaveIcon color="disabled" fontSize="inherit" />
+                  ) : (
+                    <SaveIcon color="primary" fontSize="inherit" />
+                  )}
+                </IconButton>
+              </span>
+            </Tooltip>
+          ) : null}
+          {deleteSong ? (
+            <Tooltip title="Delete Song">
+              <span>
+                <IconButton
+                  aria-label="delete"
+                  size="large"
+                  onClick={() => setShowDeleteSongModal(true)}
+                >
+                  <DeleteIcon fontSize="inherit" />
+                </IconButton>
+              </span>
+            </Tooltip>
+          ) : null}
         </div>
       </Box>
 

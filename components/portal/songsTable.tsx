@@ -172,7 +172,13 @@ function prettyDate(date: Date) {
   });
 }
 
-export default function EnhancedTable({ songs }: { songs: Song[] }) {
+export default function EnhancedTable({
+  songs,
+  demo,
+}: {
+  songs: Song[];
+  demo: boolean;
+}) {
   const { push } = useRouter();
 
   let rows: Data[];
@@ -204,7 +210,8 @@ export default function EnhancedTable({ songs }: { songs: Song[] }) {
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-    push(`/songs/${id}`);
+    if (demo) push(`/demoSongs/${id}`);
+    else push(`/songs/${id}`);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {

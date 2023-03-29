@@ -193,42 +193,46 @@ export default function Player({
           }}
         />
         <div>
-          <Tooltip title="Save your Settings">
-            <span>
+          {savePlayer ? (
+            <Tooltip title="Save your Settings">
+              <span>
+                <IconButton
+                  disabled={disableSave}
+                  aria-label="save"
+                  size="large"
+                  onClick={() => {
+                    setDisableSave(true);
+                    savePlayer({
+                      label: sectionLabel,
+                      start,
+                      end,
+                      speed,
+                      loop,
+                      showMeasures,
+                      id: sectionId,
+                    });
+                  }}
+                >
+                  {disableSave ? (
+                    <SaveIcon color="disabled" fontSize="inherit" />
+                  ) : (
+                    <SaveIcon color="primary" fontSize="inherit" />
+                  )}
+                </IconButton>
+              </span>
+            </Tooltip>
+          ) : null}
+          {deletePlayer ? (
+            <Tooltip title="Delete Section">
               <IconButton
-                disabled={disableSave}
-                aria-label="save"
+                aria-label="delete"
                 size="large"
-                onClick={() => {
-                  setDisableSave(true);
-                  savePlayer({
-                    label: sectionLabel,
-                    start,
-                    end,
-                    speed,
-                    loop,
-                    showMeasures,
-                    id: sectionId,
-                  });
-                }}
+                onClick={() => deletePlayer(sectionId)}
               >
-                {disableSave ? (
-                  <SaveIcon color="disabled" fontSize="inherit" />
-                ) : (
-                  <SaveIcon color="primary" fontSize="inherit" />
-                )}
+                <DeleteIcon fontSize="inherit" />
               </IconButton>
-            </span>
-          </Tooltip>
-          <Tooltip title="Delete Section">
-            <IconButton
-              aria-label="delete"
-              size="large"
-              onClick={() => deletePlayer(sectionId)}
-            >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
-          </Tooltip>
+            </Tooltip>
+          ) : null}
         </div>
       </Box>
 
