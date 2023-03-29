@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Player from "./player";
 import { AudioType } from "./types";
 
-const Audio = ({
-  song,
-  section,
-  audio,
-  savePlayer,
-  deletePlayer,
-}: AudioType) => {
+const Audio = ({ song, section, savePlayer, deletePlayer }: AudioType) => {
+  const audio = useRef(document.createElement("audio"));
   const [loaded, setLoaded] = useState(false);
   const [duration, setDuration] = useState(0);
   const [start, setStart] = useState(0);
@@ -27,22 +22,22 @@ const Audio = ({
     if (end) {
       src += `,${end}`;
     }
-    audio.src = src;
+    audio.current.src = src;
   }, [audio, end, song.audioUrl, start]);
 
   const play = React.useCallback(async () => {
-    await audio.play();
+    await audio.current.play();
     setIsPlaying(true);
   }, [audio]);
 
   function pause() {
-    audio.pause();
+    audio.current.pause();
     setIsPlaying(false);
   }
 
   const setAudioPlaybackRate = React.useCallback(
     (value: number) => {
-      audio.playbackRate = value;
+      audio.current.playbackRate = value;
       setSpeed(value);
     },
     [audio],
@@ -51,10 +46,10 @@ const Audio = ({
   const load = React.useCallback(async () => {
     setLoading(true);
     addSrc();
-    audio.load();
+    audio.current.load();
     setLoaded(true);
-    audio.onloadedmetadata = function () {
-      const orig = Math.round(audio.duration);
+    audio.current.onloadedmetadata = function () {
+      const orig = Math.round(audio.current.duration);
       setDuration(orig);
       setLoading(false);
     };
@@ -85,12 +80,12 @@ const Audio = ({
   };
 
   const setPlayback = (value: number) => {
-    audio.currentTime = value;
+    audio.current.currentTime = value;
   };
 
-  audio.addEventListener(
+  audio.current.addEventListener(
     "timeupdate",
-    () => setCurrentTime(audio.currentTime),
+    () => setCurrentTime(audio.current.currentTime),
     false,
   );
 
@@ -101,12 +96,12 @@ const Audio = ({
   // }, [start, end, isPlaying, load, play]);
 
   useEffect(() => {
-    if (end !== 0 && audio.currentTime >= end) {
+    if (end !== 0 && audio.current.currentTime >= end) {
       setIsPlaying(false);
       load();
       if (loop) play();
     }
-  }, [audio.currentTime, audio.paused, end, load, loop, play]);
+  }, [audio.current.currentTime, audio.current.paused, end, load, loop, play]);
 
   useEffect(() => {
     if (song.duration) setDuration(song.duration);

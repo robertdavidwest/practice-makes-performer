@@ -1,14 +1,15 @@
 import * as React from "react";
-import SongCard from "@/components/song/songCard";
 import Layout from "@/components/layout";
 import Audio from "@/components/song/audio";
 import SongHeader from "@/components/song/header";
 import { sampleSong } from "sampleData/song";
+import dynamic from "next/dynamic";
 
-function createAudioElement() {
-  const audio = document.createElement("audio");
-  return audio;
-}
+// ensure this is only run client side
+// or the audio el creation in <Audio /> will break the app
+const SongCard = dynamic(() => import("@/components/song/songCard"), {
+  ssr: false,
+});
 
 export default function DemoSong() {
   const song = sampleSong;
@@ -20,13 +21,7 @@ export default function DemoSong() {
           ? song.sections.map((section) => (
               <SongCard
                 key={section.id}
-                demo={
-                  <Audio
-                    song={song}
-                    section={section}
-                    audio={createAudioElement()}
-                  />
-                }
+                demo={<Audio song={song} section={section} />}
               />
             ))
           : null}

@@ -27,7 +27,7 @@ export const sampleSong: SongWithSections = {
   updatedAt: new Date("2021-09-01T00:00:00.000Z"),
   sections: [
     {
-      id: 0,
+      id: 1,
       songId: 0,
       label: "Guitar Intro",
       start: 103,
@@ -39,7 +39,7 @@ export const sampleSong: SongWithSections = {
       showMeasures: false,
     },
     {
-      id: 0,
+      id: 2,
       songId: 0,
       label: "Sax Solo 1",
       start: 646,

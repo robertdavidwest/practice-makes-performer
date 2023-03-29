@@ -23,11 +23,6 @@ const fetcher = ([baseUrl, id]: string[]) => {
   }
 };
 
-function createAudioElement() {
-  const audio = document.createElement("audio");
-  return audio;
-}
-
 async function updateSection(payload: UpdateSection) {
   const response = await fetch(`/api/section/${payload.id}`, {
     method: "PUT",
@@ -204,7 +199,6 @@ export default function Song() {
                   <Audio
                     song={song}
                     section={section}
-                    audio={createAudioElement()}
                     savePlayer={savePlayer}
                     deletePlayer={deletePlayer}
                   />

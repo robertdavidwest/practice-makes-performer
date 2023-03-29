@@ -33,7 +33,6 @@ export interface PlayerType {
 export interface AudioType {
   song: Song;
   section: Section;
-  audio: HTMLAudioElement;
   savePlayer?: (payload: UpdateSection) => void;
   deletePlayer?: (sectionId: number) => void;
 }
