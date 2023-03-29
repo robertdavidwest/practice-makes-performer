@@ -192,7 +192,7 @@ export default function UploadSongFormModal({
       linktested === false ||
       formState.duration === 0
     ) {
-      setDisabled(true);
+      setDisabled(false);
     } else {
       setDisabled(false);
     }
