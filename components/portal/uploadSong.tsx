@@ -17,6 +17,9 @@ import { CreateSong } from "../song/types";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { ConfirmSongModal } from "./confirmSongUrl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -67,6 +70,17 @@ function convertGoogleDriveUrlToAudioUrl(url: string) {
   return audioUrl_f(id);
 }
 
+function validateAudioUrl(url: string, directMp3Link: boolean) {
+  if (directMp3Link) return validateDirectMp3Url(url);
+  else return validateGoogleDriveUrl(url);
+}
+
+function validateDirectMp3Url(url: string) {
+  const condition1 = url.slice(url.length - 4, url.length) === ".mp3";
+  const condition2 = url.slice(0, 8) === "https://";
+  return condition1 && condition2;
+}
+
 function validateGoogleDriveUrl(url: string) {
   const condition1 = url.slice(0, 32) === GOOGLE_DRIVE_PREFIX;
   if (!condition1) return false;
@@ -94,6 +108,9 @@ export default function UploadSongFormModal({
   const [validLink, setValidLink] = React.useState(true);
   const [userValidatedLink, setUserValidatedLink] = React.useState(true);
   const [linktested, setLinkTested] = React.useState(false);
+  const [directMp3Link, setDirectMp3Link] = React.useState(false);
+  const [helperText, setHelperText] = React.useState("");
+
   const [open, setOpen] = React.useState(false);
   const [openConfirmSongModal, setOpenConfirmSongModal] = React.useState(false);
 
@@ -128,15 +145,25 @@ export default function UploadSongFormModal({
 
   const testAudioUrl = async () => {
     setOpenConfirmSongModal(true);
-    const audioUrl = convertGoogleDriveUrlToAudioUrl(formState.audioUrl);
-    audio.current.src = audioUrl;
-    audio.current.load();
-    audio.current.onloadedmetadata = function () {
-      const duration = Math.round(audio.current.duration);
-      const name = "duration";
-      setFormState({ ...formState, [name]: duration });
-    };
-    await audio.current.play();
+    try {
+      const audioUrl = directMp3Link
+        ? formState.audioUrl
+        : convertGoogleDriveUrlToAudioUrl(formState.audioUrl);
+      audio.current.src = audioUrl;
+      audio.current.load();
+      audio.current.onloadedmetadata = function () {
+        const duration = Math.round(audio.current.duration);
+        const name = "duration";
+        setFormState({ ...formState, [name]: duration });
+      };
+      await audio.current.play();
+    } catch (error) {
+      let message: string;
+      if (error instanceof Error) {
+        message = error.message;
+        console.log(message);
+      }
+    }
   };
 
   if (!openConfirmSongModal) {
@@ -145,20 +172,16 @@ export default function UploadSongFormModal({
     }
   }
 
-  React.useEffect(() => {
-    if (!userValidatedLink) {
-      const name = "audioUrl";
-      setFormState({ ...formState, [name]: "" });
-      setUserValidatedLink(true);
-    }
-  }, [userValidatedLink, formState]);
-
   const handleSubmit = async () => {
+    const audioUrl = directMp3Link
+      ? formState.audioUrl
+      : convertGoogleDriveUrlToAudioUrl(formState.audioUrl);
+
     const payload = {
       name: formState.songName,
       artist: formState.artist,
       duration: formState.duration,
-      audioUrl: convertGoogleDriveUrlToAudioUrl(formState.audioUrl),
+      audioUrl: audioUrl,
       userId: userId,
     };
     const { data, status } = await createSong(payload);
@@ -172,31 +195,51 @@ export default function UploadSongFormModal({
     handleClose();
     setOpenSnackBar(true);
   };
+
   React.useEffect(() => {
-    if (
-      formState.audioUrl === "" ||
-      validateGoogleDriveUrl(formState.audioUrl)
-    ) {
+    if (formState.audioUrl === "") {
+      setValidLink(true);
+    } else if (validateAudioUrl(formState.audioUrl, directMp3Link)) {
       setValidLink(true);
     } else {
       setValidLink(false);
     }
-  }, [formState, setValidLink]);
+  }, [directMp3Link, formState, setValidLink]);
 
   React.useEffect(() => {
     if (
       formState.songName === "" ||
       formState.artist === "" ||
       formState.audioUrl === "" ||
-      validateGoogleDriveUrl(formState.audioUrl) === false ||
+      validateAudioUrl(formState.audioUrl, directMp3Link) === false ||
       linktested === false ||
       formState.duration === 0
     ) {
-      setDisabled(false);
+      setDisabled(true);
     } else {
       setDisabled(false);
     }
-  }, [formState, linktested, setDisabled]);
+  }, [directMp3Link, formState, linktested, setDisabled]);
+
+  React.useEffect(() => {
+    if (!userValidatedLink) {
+      setHelperText("Try another link!");
+      setUserValidatedLink(true);
+    }
+  }, [userValidatedLink]);
+
+  React.useEffect(() => {
+    if (validLink) setHelperText("");
+    else {
+      if (directMp3Link) {
+        setHelperText("Link must be of the format: https://path/to/file.mp3");
+      } else {
+        setHelperText(
+          "Link must be of the format: https://drive.google.com/file/d/FILE_ID/view?usp=share_link",
+        );
+      }
+    }
+  }, [validLink, directMp3Link]);
 
   return (
     <div>
@@ -242,7 +285,6 @@ export default function UploadSongFormModal({
             audio files, you are in control of your own data.
           </p>
         </Container>
-
         <DialogContent>
           <DialogContentText>
             Follow these steps to upload your mp3 file to google drive and link
@@ -316,24 +358,29 @@ export default function UploadSongFormModal({
             margin="dense"
             id="link"
             name="audioUrl"
-            label="Google Drive link to mp3 file"
+            label={directMp3Link ? "Link to mp3 file" : "Google Drive link"}
             type="text"
             fullWidth
             variant="standard"
             error={!validLink}
-            helperText={
-              validLink
-                ? ""
-                : "Link must be of the format: https://drive.google.com/file/d/FILE_ID/view?usp=share_link"
-            }
+            helperText={helperText}
           />
-          <Button
-            onClick={() => testAudioUrl()}
-            color={"primary"}
-            disabled={!validateGoogleDriveUrl(formState.audioUrl)}
-          >
-            Test Link
-          </Button>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              onClick={() => testAudioUrl()}
+              color={"primary"}
+              variant={"outlined"}
+              disabled={!validateAudioUrl(formState.audioUrl, directMp3Link)}
+            >
+              Test Link
+            </Button>
+            <FormControlLabel
+              control={
+                <Checkbox onChange={() => setDirectMp3Link(!directMp3Link)} />
+              }
+              label="Use a different source *"
+            />
+          </Box>
           <List>
             <ListItem>
               <ListItemAvatar>{"5."}</ListItemAvatar>
@@ -343,6 +390,9 @@ export default function UploadSongFormModal({
               />
             </ListItem>
           </List>
+          <p>
+            <em>* You may also use a direct mp3 link from any platform</em>
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
