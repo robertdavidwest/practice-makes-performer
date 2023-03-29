@@ -81,6 +81,7 @@ export default function SongHeader({
       >
         <TextField
           size="small"
+          style={{ width: "90%" }}
           label="Song Name"
           variant="outlined"
           value={songName}
@@ -92,6 +93,7 @@ export default function SongHeader({
         <br />
         <TextField
           size="small"
+          style={{ width: "90%" }}
           label="Artist"
           variant="outlined"
           value={artist}
