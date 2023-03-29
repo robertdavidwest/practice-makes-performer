@@ -20,3 +20,10 @@
 .mili-sec{
   color:  #e42a2a;
 }
+
+.main {
+  min-height: 90vh;
+}
+.footer {
+  margin-top: auto;
+}
