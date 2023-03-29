@@ -4,7 +4,6 @@ import Layout from "@/components/layout";
 import Loading from "@/components/loading";
 import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
-import ComponentGrid from "@/components/home/component-grid";
 
 import EnhancedTable from "@/components/portal/songsTable";
 import { Container } from "@mui/material";
@@ -60,6 +59,11 @@ export default function Portal() {
       true,
     );
   }
+  const title = "Your Song Library";
+  const description = songs.length
+    ? "Select one of your songs below to begin practicing"
+    : "You have no songs in your library. Click the button above to add one.";
+  const large = true;
 
   return (
     <Layout>
@@ -88,35 +92,21 @@ export default function Portal() {
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
       <div className="my-10 w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
         <PortalCard
-          key={features[0].title}
-          title={features[0].title}
-          description={features[0].description}
+          key={title}
+          title={title}
+          description={description}
           appendToSongs={appendToSongs}
           userId={userId}
           demo={
-            <Container>
-              <EnhancedTable songs={songs} />{" "}
-            </Container>
+            songs.length ? (
+              <Container>
+                <EnhancedTable songs={songs} />{" "}
+              </Container>
+            ) : null
           }
           large={true}
         />
-        {features.slice(1).map(({ title, description, large }) => (
-          <Card
-            key={title}
-            title={title}
-            description={description}
-            demo={<ComponentGrid />}
-            large={large}
-          />
-        ))}
       </div>
     </Layout>
   );
 }
-const features = [
-  {
-    title: "Your Song Library",
-    description: "Select one of your songs below to begin practicing",
-    large: true,
-  },
-];
