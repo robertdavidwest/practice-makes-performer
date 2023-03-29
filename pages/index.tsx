@@ -134,6 +134,21 @@ const features = [
     large: true,
   },
   {
+    title: "Integrated with GoogleDrive",
+    description:
+      "Own your own data. Store your files on GoogleDrive and link them to your account",
+    demo: (
+      <div className="flex items-center justify-center space-x-20">
+        <Image
+          width={150}
+          height={150}
+          src={"/GoogleDrive_2020.svg"}
+          alt="GoogleDrive logo"
+        />
+      </div>
+    ),
+  },
+  {
     title: "Performance first",
     description:
       "Built on [Next.js](https://nextjs.org/) primitives like `@next/font` and `next/image` for stellar performance.",
@@ -154,17 +169,7 @@ const features = [
       </a>
     ),
   },
-  {
-    title: "Built-in Auth + Database",
-    description:
-      "Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)",
-    demo: (
-      <div className="flex items-center justify-center space-x-20">
-        <Image alt="Auth.js logo" src="/authjs.webp" width={50} height={50} />
-        <Image alt="Prisma logo" src="/prisma.svg" width={50} height={50} />
-      </div>
-    ),
-  },
+
   {
     title: "Hooks, utilities, and more",
     description:
