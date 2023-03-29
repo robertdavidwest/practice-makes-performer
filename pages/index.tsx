@@ -45,19 +45,6 @@ export default function Home() {
           },
         }}
       >
-        <motion.a
-          variants={FADE_DOWN_ANIMATION_VARIANTS}
-          // href="https://twitter.com/steventey/status/1613928948915920896"
-          href="https://twitter.com/robertdavidwest"
-          target="_blank"
-          rel="noreferrer"
-          className="max-w-it mx-auto mb-5 flex items-center justify-center space-x-2 overflow-hidden rounded-full bg-blue-100 px-7 py-2 transition-colors hover:bg-blue-200"
-        >
-          <Twitter className="h-5 w-5 text-[#1d9bf0]" />
-          <p className="text-sm font-semibold text-[#1d9bf0]">
-            Introducing PracticeMakesPerformer
-          </p>
-        </motion.a>
         <motion.h1
           className="bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]"
           variants={FADE_DOWN_ANIMATION_VARIANTS}
@@ -69,11 +56,8 @@ export default function Home() {
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
           <Balancer>
-            An online tool that lets you... slow down songs, select a
-            subsection, loop the playback AND save the state of multiple
-            subsections... So you can <strong>quickly</strong> and{" "}
-            <strong>easily</strong> pick up where you left off the next time you
-            are playing.
+            Designed to help musicians of all kinds improve their skills by
+            customizing the playback of any song... and saving the state.
           </Balancer>
         </motion.p>
         <motion.div
@@ -86,14 +70,12 @@ export default function Home() {
           >
             <p>Try it out!</p>
           </Link>
-          <Tooltip title="With an account you can save your settings, come back and practice anytime">
-            <IconButton
-              className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-purple-700 px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
-              onClick={() => signIn("auth0")}
-            >
-              <p>Create An Account</p>
-            </IconButton>
-          </Tooltip>
+          <div
+            className="group flex max-w-fit cursor-pointer items-center justify-center space-x-2 rounded-full border border-black bg-purple-700 px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
+            onClick={() => signIn("auth0")}
+          >
+            <p>Create An Account</p>
+          </div>
         </motion.div>
       </motion.div>
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
