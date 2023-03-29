@@ -133,7 +133,8 @@ export default function Song() {
     const speed = 1;
     const songId = Number(id);
     const loop = true;
-    const payload = { label, start, end, speed, songId, loop };
+    const showMeasures = false;
+    const payload = { label, start, end, speed, songId, loop, showMeasures };
     const { data, status } = await createSection(payload);
     if (status === 201) {
       mutate(

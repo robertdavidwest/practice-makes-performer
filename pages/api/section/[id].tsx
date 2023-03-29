@@ -79,13 +79,21 @@ async function putSection(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { id, label, start, end, speed, loop } = req.body;
+  const { id, label, start, end, speed, loop, showMeasures } = req.body;
   if (id !== Number(req.query.id))
     res
       .status(500)
       .json({ message: "bad request, query id does not match payload" });
 
-  const data: UpdateSection = { id, label, start, end, speed, loop };
+  const data: UpdateSection = {
+    id,
+    label,
+    start,
+    end,
+    speed,
+    loop,
+    showMeasures,
+  };
   if (await validateSectionBelongsToUser(session, id, res)) {
     const updatedSection = await prisma.section.update({
       where: { id },

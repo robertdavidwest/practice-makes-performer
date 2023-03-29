@@ -22,7 +22,7 @@ export default function Portal() {
   const { data } = useSWR("/api/songs", fetcher);
 
   const response = useSWR("/api/user", fetcher);
-  let userId: number;
+  let userId: number = 0;
   if (response.data) {
     userId = response.data.userId;
   }

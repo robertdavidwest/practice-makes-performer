@@ -30,8 +30,16 @@ async function postSection(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { label, start, end, speed, loop, songId } = req.body;
-  const data: CreateSection = { label, start, end, speed, loop, songId };
+  const { label, start, end, speed, loop, songId, showMeasures } = req.body;
+  const data: CreateSection = {
+    label,
+    start,
+    end,
+    speed,
+    loop,
+    songId,
+    showMeasures,
+  };
   const song = await prisma.song.findUnique({
     where: { id: songId },
     select: { user: { select: { email: true } } },

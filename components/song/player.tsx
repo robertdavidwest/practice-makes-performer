@@ -177,6 +177,8 @@ export default function Player({
     return <PlayerLoading />;
   }
 
+  // constant until feature is implemented
+  const showMeasures = false;
   return (
     <Widget>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -205,6 +207,7 @@ export default function Player({
                     end,
                     speed,
                     loop,
+                    showMeasures,
                     id: sectionId,
                   });
                 }}
