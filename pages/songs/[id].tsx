@@ -1,3 +1,4 @@
+import * as React from "react";
 import SongCard from "@/components/song/songCard";
 import AddNewPlayer from "@/components/song/addNewPlayer";
 import Layout from "@/components/layout";
@@ -87,6 +88,8 @@ async function _deleteSong(id: number) {
 }
 
 export default function Song() {
+  const [loadingNewPlayer, setLoadingNewPlayer] = React.useState(false);
+
   const { data: session, status } = useSession();
   const router = useRouter();
   const { push } = router;
@@ -126,6 +129,7 @@ export default function Song() {
   }
 
   async function addNewPlayer() {
+    setLoadingNewPlayer(true);
     const nextSectionNum = song.sections.length + 1;
     const label = `Section ${nextSectionNum}`;
     const start = 0;
@@ -145,6 +149,7 @@ export default function Song() {
         },
         true,
       );
+      setLoadingNewPlayer(false);
     }
   }
 
@@ -207,7 +212,14 @@ export default function Song() {
               />
             ))
           : null}
-        <SongCard demo={<AddNewPlayer addNewPlayer={addNewPlayer} />} />
+        <SongCard
+          demo={
+            <AddNewPlayer
+              addNewPlayer={addNewPlayer}
+              loadingNewPlayer={loadingNewPlayer}
+            />
+          }
+        />
       </div>
     </Layout>
   );

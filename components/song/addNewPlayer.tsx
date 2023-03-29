@@ -4,12 +4,16 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea, Container } from "@mui/material";
 import { Box } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import PlayerLoading from "./playerLoading";
 
 export default function AddNewPlayer({
   addNewPlayer,
+  loadingNewPlayer,
 }: {
   addNewPlayer: () => void;
+  loadingNewPlayer: boolean;
 }) {
+  if (loadingNewPlayer) return <PlayerLoading />;
   return (
     <Container>
       <CardActionArea onClick={addNewPlayer}>
