@@ -1,6 +1,7 @@
 import PortalCard from "@/components/portal/portalCard";
 import Layout from "@/components/layout";
 import Loading from "@/components/loading";
+import LibraryLoading from "@/components/portal/libraryLoading";
 import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 
@@ -43,7 +44,20 @@ export default function Portal() {
   } else {
     user = session.user as User;
   }
-  let songs: Song[] = [];
+
+  // dummy data to handle loading screen
+  let songs: Song[] = [
+    {
+      id: 0,
+      userId: 0,
+      name: "dummy",
+      artist: "",
+      audioUrl: "",
+      duration: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
   if (data && data.songs) {
     songs = data.songs;
   }
@@ -59,9 +73,13 @@ export default function Portal() {
     );
   }
   const title = "Your Song Library";
-  const description = songs.length
-    ? "Select one of your songs below to begin practicing"
-    : "You have no songs in your library. Click the button above to add one.";
+  let description;
+  if (songs.length === 0)
+    description =
+      "You have no songs in your library. Click the button above to add one.";
+  else if (songs[0].name === "dummy" && songs[0].id === 0)
+    description = "Loading your songs...";
+  else description = "Select one of your songs below to begin practicing";
   const large = true;
 
   return (
@@ -97,11 +115,15 @@ export default function Portal() {
           appendToSongs={appendToSongs}
           userId={userId}
           demo={
-            songs.length ? (
+            songs[0].name === "dummy" && songs[0].id === 0 ? (
+              <Container>
+                <LibraryLoading />
+              </Container>
+            ) : (
               <Container>
                 <EnhancedTable demo={false} songs={songs} />{" "}
               </Container>
-            ) : null
+            )
           }
           large={true}
         />
