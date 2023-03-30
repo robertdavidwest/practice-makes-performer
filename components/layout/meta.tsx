@@ -3,8 +3,8 @@ import Head from "next/head";
 const DOMAIN = "https://practicemakesperformer.com/";
 
 export default function Meta({
-  title = "PractceMakesPerformer - Play along with your favorite songs",
-  description = "Slow down songs, select a subsection, loop the playback AND save the state of multiple subsections... So you can quickly and easily pick up where you left off the next time you are playing",
+  title = "PractceMakesPerformer ",
+  description = "Designed to help musicians of all kinds improve their skills by customizing the playback of any song... and saving the state.",
   image = `${DOMAIN}/api/og`,
 }: {
   title?: string;
