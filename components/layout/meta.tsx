@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const DOMAIN = "https://practicemakesperformer.com/";
+const DOMAIN = "https://practicemakesperformer.com";
 
 export default function Meta({
   title = "PractceMakesPerformer ",
