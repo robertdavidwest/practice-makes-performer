@@ -3,7 +3,7 @@ import Head from "next/head";
 const DOMAIN = "https://practicemakesperformer.com";
 
 export default function Meta({
-  title = "PractceMakesPerformer ",
+  title = "PracticeMakesPerformer ",
   description = "Designed to help musicians of all kinds improve their skills by customizing the playback of any song... and saving the state.",
   image = `${DOMAIN}/api/og`,
 }: {
