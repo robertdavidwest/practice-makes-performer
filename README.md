@@ -24,6 +24,10 @@
 </p>
 <br/>
 
+
+
+
+
 ## Introduction
 
 Precedent is an opinionated collection of components, hooks, and utilities for your Next.js project.
@@ -42,7 +46,7 @@ npx create-next-app precedent --example "https://github.com/steven-tey/precedent
 
 ## Tech Stack + Features
 
-https://user-images.githubusercontent.com/28986134/212368288-12f41e37-aa8c-4e0a-a542-cf6d23410a65.mp4
+https://user-images.githubusercontent.com/2637612/228921951-227400eb-fd14-43bc-8ad9-9313fe6e8b59.mp4
 
 ### Frameworks
 
