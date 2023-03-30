@@ -57,6 +57,11 @@ export default function Player({
     setPosition(currentTime);
   }, [currentTime]);
 
+  //////////// these values are hardcoded for now
+  const bpm = 130;
+  const beatsPerMeasure = 6;
+  ///////////////////////////////////////////////
+
   const theme = useTheme();
   const [position, setPosition] = React.useState(0);
 
@@ -69,8 +74,21 @@ export default function Player({
   const lightIconColor =
     theme.palette.mode === "dark" ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)";
 
+  function convertMeasuresToSeconds(measure: number) {
+    // return Math.floor((60 / bpm) * beatsPerMeasure * measure);
+    return (60 / bpm) * beatsPerMeasure * measure;
+  }
+  function convertSecondsToMeasures(seconds: number) {
+    return Math.floor((seconds * bpm) / (60 * beatsPerMeasure));
+  }
+
   const maxMins = Math.floor(duration / 60);
   const remainingSeconds = duration - maxMins * 60;
+
+  const maxMeasures = convertSecondsToMeasures(duration);
+
+  const [startMeasures, setStartMeasures] = React.useState(0);
+  const [endMeasures, setEndMeasures] = React.useState(maxMeasures);
 
   const [startMinutes, setStartMinutes] = React.useState(0);
   const [startSeconds, setStartSeconds] = React.useState(0);
@@ -115,6 +133,24 @@ export default function Player({
       if (startOrEnd === "start") setStartMinutes(valueMinutes);
       else if (startOrEnd === "end") setEndMinutes(valueMinutes);
     }
+  };
+
+  const changeStartMeasure = (value: string) => {
+    let numValue = Number(value);
+    const currentStartSeconds = convertMeasuresToSeconds(numValue);
+    console.log("measure", numValue);
+    console.log("converted sec", currentStartSeconds);
+    setStartMeasures(numValue);
+    setStart(currentStartSeconds);
+    setDisableSave(false);
+  };
+
+  const changeEndMeasure = (value: string) => {
+    let numValue = Number(value);
+    const currentStartSeconds = convertMeasuresToSeconds(numValue);
+    setEndMeasures(numValue);
+    setEnd(currentStartSeconds);
+    setDisableSave(false);
   };
 
   const changeStartMinutes = (value: string) => {
@@ -178,7 +214,7 @@ export default function Player({
   }
 
   // constant until feature is implemented
-  const showMeasures = false;
+  const showMeasures = true;
   return (
     <Widget>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -249,34 +285,52 @@ export default function Player({
           <Typography variant="caption" color="text.secondary" fontWeight={500}>
             {"Start"}
           </Typography>
-          <Grid container spacing={2} columns={2}>
-            <Grid item xs={1}>
-              <TextField
-                size="small"
-                helperText="minutes"
-                placeholder={"MM"}
-                value={startMinutes}
-                type="number"
-                onChange={(e) => changeStartMinutes(e.target.value)}
-                InputProps={{
-                  inputProps: { min: 0 },
-                }}
-              />
+          {!showMeasures ? (
+            <Grid container spacing={2} columns={2}>
+              <Grid item xs={1}>
+                <TextField
+                  size="small"
+                  helperText="minutes"
+                  placeholder={"MM"}
+                  value={startMinutes}
+                  type="number"
+                  onChange={(e) => changeStartMinutes(e.target.value)}
+                  InputProps={{
+                    inputProps: { min: 0 },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <TextField
+                  size="small"
+                  helperText="seconds"
+                  placeholder={"SS"}
+                  value={startSeconds}
+                  type="number"
+                  onChange={(e) => changeStartSeconds(e.target.value)}
+                  InputProps={{
+                    inputProps: { min: -1 },
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={1}>
-              <TextField
-                size="small"
-                helperText="seconds"
-                placeholder={"SS"}
-                value={startSeconds}
-                type="number"
-                onChange={(e) => changeStartSeconds(e.target.value)}
-                InputProps={{
-                  inputProps: { min: -1 },
-                }}
-              />
+          ) : (
+            <Grid container spacing={2} columns={2}>
+              <Grid item xs={1}>
+                <TextField
+                  size="small"
+                  helperText="measure"
+                  placeholder={"measure"}
+                  value={startMeasures}
+                  type="number"
+                  onChange={(e) => changeStartMeasure(e.target.value)}
+                  InputProps={{
+                    inputProps: { min: 0 },
+                  }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          )}
         </Grid>
         <Grid item xs={1}></Grid>
         <Grid item xs={7}>
