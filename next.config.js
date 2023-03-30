@@ -16,7 +16,8 @@ const nextConfig = {
     return [
       {
         source: "/github",
-        destination: "https://github.com/steven-tey/precedent",
+        destination:
+          "https://github.com/robertdavidwest/practice-makes-performer",
         permanent: false,
       },
     ];

@@ -42,7 +42,7 @@ export default function Layout({
           >
             <Image
               src="/logo.png"
-              alt="Precedent logo"
+              alt="PracticeMakesPerformer logo"
               width="30"
               height="30"
               className="mr-2 rounded-sm"
