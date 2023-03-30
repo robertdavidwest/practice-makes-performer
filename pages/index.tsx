@@ -3,10 +3,7 @@ import PortalCard from "@/components/portal/portalCard";
 import Layout from "@/components/layout";
 import Balancer from "react-wrap-balancer";
 import { motion } from "framer-motion";
-import { DEPLOY_URL, FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
-import { Twitter } from "@/components/shared/icons";
-import WebVitals from "@/components/home/web-vitals";
-import ComponentGrid from "@/components/home/component-grid";
+import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import Image from "next/image";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
@@ -14,8 +11,7 @@ import { Container } from "@mui/material";
 import EnhancedTable from "@/components/portal/songsTable";
 import { sampleSongs } from "sampleData/song";
 import Link from "next/link";
-import { IconButton, Tooltip } from "@mui/material";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
@@ -98,13 +94,7 @@ export default function Home() {
               key={title}
               title={title}
               description={description}
-              demo={
-                title === "Beautiful, reusable components" ? (
-                  <ComponentGrid />
-                ) : (
-                  demo
-                )
-              }
+              demo={demo}
               large={large}
             />
           ),
