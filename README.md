@@ -1,54 +1,41 @@
-<a href="https://precedent.dev">
-  <img alt="Precedent – Building blocks for your Next project" src="https://precedent.dev/api/og">
-  <h1 align="center">Precedent</h1>
+<a href="https://practicemakesperformer.com">
+  <img alt="Practice Makes Performer" src="https://practicemakesperformer.com/api/og">
+  <h1 align="center">Practice Makes Performer</h1>
 </a>
 
 <p align="center">
-  Building blocks for your Next project
+Designed to help musicians of all kinds improve their skills by customizing the playback of any song... and saving the state.
 </p>
 
 <p align="center">
-  <a href="https://twitter.com/steventey">
-    <img src="https://img.shields.io/twitter/follow/steventey?style=flat&label=steventey&logo=twitter&color=0bf&logoColor=fff" alt="Steven Tey Twitter follower count" />
-  </a>
-  <a href="https://github.com/steven-tey/precedent">
-    <img src="https://img.shields.io/github/stars/steven-tey/precedent?label=steven-tey%2Fprecedent" alt="Precedent repo star count" />
+  <a href="https://twitter.com/robertdavidwest">
+    <img src="https://img.shields.io/twitter/follow/robertdavidwest?style=flat&label=robertdavidwest&logo=twitter&color=0bf&logoColor=fff" alt="Robert West Twitter follower count" />
   </a>
 </p>
 
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
-  <a href="#one-click-deploy"><strong>One-click Deploy</strong></a> ·
-  <a href="#tech-stack--features"><strong>Tech Stack + Features</strong></a> ·
+  <a href="#tech-stack"><strong>Tech Stack</strong></a> ·
   <a href="#author"><strong>Author</strong></a>
 </p>
 <br/>
 
-
-
-
-
 ## Introduction
 
-Precedent is an opinionated collection of components, hooks, and utilities for your Next.js project.
+**Practice Makes Performer** is a tool designed to help musicians of all kinds improve their skills by customizing the playback of any song, you can:
 
-## One-click Deploy
-
-You can deploy this template to Vercel with the button below:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsteven-tey%2Fprecedent&project-name=precedent&repository-name=precedent&demo-title=Precedent&demo-description=An%20opinionated%20collection%20of%20components%2C%20hooks%2C%20and%20utilities%20for%20your%20Next%20project.&demo-url=https%3A%2F%2Fprecedent.dev&demo-image=https%3A%2F%2Fprecedent.dev%2Fapi%2Fog&env=DATABASE_URL,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,NEXTAUTH_SECRET&envDescription=How%20to%20get%20these%20env%20variables%3A&envLink=https%3A%2F%2Fgithub.com%2Fsteven-tey%2Fprecedent%2Fblob%2Fmain%2F.env.example)
-
-You can also clone & create this repo locally with the following command:
-
-```bash
-npx create-next-app precedent --example "https://github.com/steven-tey/precedent"
-```
-
-## Tech Stack + Features
+- Create multiple players for your track and save the state of each
+- Adjust the tempo as you're learning
+- Select specific parts of the song to focus on and seamlessly loop these parts to practice until you get it right.
+- Plus, you can save your progress and easily resume your practice session at any time
 
 https://user-images.githubusercontent.com/2637612/228921951-227400eb-fd14-43bc-8ad9-9313fe6e8b59.mp4
 
+## Tech Stack
+
 ### Frameworks
+
+Practice Makes Performer is built with:
 
 - [Next.js](https://nextjs.org/) – React framework for building performant apps with the best developer experience
 - [Auth.js](https://authjs.dev/) – Handle user authentication with ease with providers like Google, Twitter, GitHub, etc.
@@ -56,8 +43,10 @@ https://user-images.githubusercontent.com/2637612/228921951-227400eb-fd14-43bc-8
 
 ### Platforms
 
+and deployed to:
+
 - [Vercel](https://vercel.com/) – Easily preview & deploy changes with git
-- [Railway](https://railway.app/) – Easily provision a PostgreSQL database (no login required)
+- [Railway](https://railway.app/) – Easily provision a PostgreSQL database
 
 ### UI
 
@@ -68,27 +57,8 @@ https://user-images.githubusercontent.com/2637612/228921951-227400eb-fd14-43bc-8
 - [`@next/font`](https://nextjs.org/docs/basic-features/font-optimization) – Optimize custom fonts and remove external network requests for improved performance
 - [`@vercel/og`](https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation) – Generate dynamic Open Graph images on the edge
 - [`react-wrap-balancer`](https://github.com/shuding/react-wrap-balancer) – Simple React component that makes titles more readable
-
-### Hooks and Utilities
-
-- `useIntersectionObserver` –  React hook to observe when an element enters or leaves the viewport
-- `useLocalStorage` – Persist data in the browser's local storage
-- `useScroll` – React hook to observe scroll position ([example](https://github.com/steven-tey/precedent/blob/main/components/layout/index.tsx#L25))
-- `nFormatter` – Format numbers with suffixes like `1.2k` or `1.2M`
-- `capitalize` – Capitalize the first letter of a string
-- `truncate` – Truncate a string to a specified length
-- [`use-debounce`](https://www.npmjs.com/package/use-debounce) – Debounce a function call / state update
-
-### Code Quality
-
-- [TypeScript](https://www.typescriptlang.org/) – Static type checker for end-to-end typesafety
-- [Prettier](https://prettier.io/) – Opinionated code formatter for consistent code style
-- [ESLint](https://eslint.org/) – Pluggable linter for Next.js and TypeScript
-
-### Miscellaneous
-
-- [Vercel Analytics](https://vercel.com/analytics) – Track unique visitors, pageviews, and more in a privacy-friendly way
+- [`Material UI`](https://mui.com/) - MUI offers a comprehensive suite of UI tools to help you ship new features faster
 
 ## Author
 
-- Steven Tey ([@steventey](https://twitter.com/steventey))
+- Robert West ([@robertdavidwest](https://twitter.com/robertdavidwest))
