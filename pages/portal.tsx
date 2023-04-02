@@ -27,6 +27,7 @@ export default function Portal() {
   }
 
   let user = {} as User;
+  let name: string | null = null;
   if (!session) {
     if (status === "unauthenticated") {
       push("/");
@@ -43,6 +44,7 @@ export default function Portal() {
       );
   } else {
     user = session.user as User;
+    if (user.name) name = user.name;
   }
 
   // dummy data to handle loading screen
@@ -81,7 +83,7 @@ export default function Portal() {
     description = "Loading your songs...";
   else description = "Select one of your songs below to begin practicing";
   const large = true;
-
+  console.log(songs);
   return (
     <Layout>
       <motion.div
@@ -103,7 +105,7 @@ export default function Portal() {
           className="bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]"
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
-          {`Welcome ${user.name}`}
+          {name ? `Welcome ${user.name}` : null}
         </motion.h1>
       </motion.div>
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
@@ -115,7 +117,10 @@ export default function Portal() {
           appendToSongs={appendToSongs}
           userId={userId}
           demo={
-            songs[0].name === "dummy" && songs[0].id === 0 ? (
+            songs &&
+            songs.length &&
+            songs[0].name === "dummy" &&
+            songs[0].id === 0 ? (
               <Container>
                 <LibraryLoading />
               </Container>
