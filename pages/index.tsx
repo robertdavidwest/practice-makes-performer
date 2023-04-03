@@ -11,7 +11,6 @@ import { Container } from "@mui/material";
 import EnhancedTable from "@/components/portal/songsTable";
 import { sampleSongs } from "sampleData/song";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
@@ -66,12 +65,12 @@ export default function Home() {
           >
             <p>Try it out!</p>
           </Link>
-          <div
+          <Link
             className="group flex max-w-fit cursor-pointer items-center justify-center space-x-2 rounded-full border border-black bg-purple-700 px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
-            onClick={() => signIn("auth0")}
+            href="/api/auth/signup"
           >
             <p>Create An Account</p>
-          </div>
+          </Link>
         </motion.div>
       </motion.div>
       {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
