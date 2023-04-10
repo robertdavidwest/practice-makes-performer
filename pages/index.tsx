@@ -60,16 +60,10 @@ export default function Home() {
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
           <Link
-            className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
+            className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-purple-700 px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
             href="/demoSongs/0"
           >
             <p>Try it out!</p>
-          </Link>
-          <Link
-            className="group flex max-w-fit cursor-pointer items-center justify-center space-x-2 rounded-full border border-black bg-purple-700 px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
-            href="/api/auth/signin"
-          >
-            <p>Create An Account</p>
           </Link>
         </motion.div>
       </motion.div>
