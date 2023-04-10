@@ -67,7 +67,7 @@ export default function Home() {
           </Link>
           <Link
             className="group flex max-w-fit cursor-pointer items-center justify-center space-x-2 rounded-full border border-black bg-purple-700 px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
-            href="/api/auth/signup"
+            href="/api/auth/signin"
           >
             <p>Create An Account</p>
           </Link>
