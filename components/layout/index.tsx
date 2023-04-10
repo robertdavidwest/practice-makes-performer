@@ -57,7 +57,7 @@ export default function Layout({
                   onClick={() => signIn("auth0")}
                   {...FADE_IN_ANIMATION_SETTINGS}
                 >
-                  Sign In
+                  Sign In / Sign Up
                 </motion.button>
               ) : (
                 <UserDropdown />
