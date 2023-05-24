@@ -13,6 +13,8 @@ const Audio = ({ song, section, savePlayer, deletePlayer }: AudioType) => {
   const [loop, setLoop] = useState(false);
   const [speed, setSpeed] = useState(1.0);
   const [loading, setLoading] = useState(false);
+  const [volume, setVolume] = useState(1.0);
+
   const addSrc = React.useCallback(() => {
     let src = song.audioUrl;
     let _start;
@@ -83,6 +85,11 @@ const Audio = ({ song, section, savePlayer, deletePlayer }: AudioType) => {
     audio.current.currentTime = value;
   };
 
+  const setAudioVolume = (value: number) => {
+    audio.current.volume = value;
+    setVolume(value);
+  };
+
   audio.current.addEventListener(
     "timeupdate",
     () => setCurrentTime(audio.current.currentTime),
@@ -135,6 +142,8 @@ const Audio = ({ song, section, savePlayer, deletePlayer }: AudioType) => {
       savePlayer={savePlayer}
       deletePlayer={deletePlayer}
       loading={loading}
+      volume={volume}
+      setAudioVolume={setAudioVolume}
     />
   );
 };

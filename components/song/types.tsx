@@ -28,6 +28,8 @@ export interface PlayerType {
   deletePlayer?: (sectionId: number) => void;
   savePlayer?: (payload: UpdateSection) => void;
   loading: boolean;
+  volume: number;
+  setAudioVolume: (value: number) => void;
 }
 
 export interface AudioType {

@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 
 export const Widget = styled("div")(({ theme }) => ({
-  height: 350,
+  height: 200,
   padding: 16,
   borderRadius: 16,
   backgroundColor:

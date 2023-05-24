@@ -12,6 +12,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+
 import { TextField } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Tooltip from "@mui/material/Tooltip";
@@ -48,6 +50,8 @@ export default function Player({
   savePlayer,
   deletePlayer,
   loading,
+  volume,
+  setAudioVolume,
 }: PlayerType) {
   const setPlaybackManually = (value: number) => {
     setPlayback(value);
@@ -181,6 +185,7 @@ export default function Player({
 
   // constant until feature is implemented
   const showMeasures = false;
+  const volumePercentDisplay = Math.round(volume * 100) + "%";
   return (
     <Widget>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -418,9 +423,46 @@ export default function Player({
             aria-label="Speed"
             value={speed}
             min={0}
-            step={0.1}
+            step={0.05}
             max={2}
             onChange={(_, value) => setAudioPlaybackRate(value as number)}
+            sx={{
+              color:
+                theme.palette.mode === "dark" ? "#fff" : "rgba(0,0,0,0.87)",
+              "& .MuiSlider-track": {
+                border: "none",
+              },
+              "& .MuiSlider-thumb": {
+                width: 24,
+                height: 24,
+                backgroundColor: "#fff",
+                "&:before": {
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+                },
+                "&:hover, &.Mui-focusVisible, &.Mui-active": {
+                  boxShadow: "none",
+                },
+              },
+            }}
+          />
+        </Tooltip>
+      </Stack>
+      <Stack
+        spacing={2}
+        direction="row"
+        sx={{ mb: 1, px: 1 }}
+        alignItems="center"
+      >
+        <VolumeUpIcon htmlColor={lightIconColor} />
+        <TinyText>{volumePercentDisplay}</TinyText>
+        <Tooltip title="Adjust Volume">
+          <Slider
+            aria-label="Volume"
+            value={volume}
+            min={0}
+            step={0.05}
+            max={1}
+            onChange={(_, value) => setAudioVolume(value as number)}
             sx={{
               color:
                 theme.palette.mode === "dark" ? "#fff" : "rgba(0,0,0,0.87)",
