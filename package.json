@@ -15,6 +15,9 @@
     "predev": "prisma generate",
     "lint": "next lint"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "@auth0/nextjs-auth0": "^2.4.0",
     "@emotion/react": "^11.10.6",
