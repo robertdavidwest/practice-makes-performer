@@ -15,7 +15,7 @@ export default async function handler(
     const session = await getSession({ req });
     if (true) {
       if (req.method === "GET") getSongs(session, res);
-      else if (req.method === "POST") postSong(session, req, res);
+      //else if (req.method === "POST") postSong(session, req, res);
       else res.status(405).json({ message: "Method not allowed" });
     } else {
       // Not Signed in
