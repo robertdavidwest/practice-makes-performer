@@ -12,6 +12,7 @@ export const authOptions: NextAuthOptions = {
       issuer: process.env.AUTH0_ISSUER as string,
     }),
   ],
+  debug: true,
 };
 
 export default NextAuth(authOptions);
