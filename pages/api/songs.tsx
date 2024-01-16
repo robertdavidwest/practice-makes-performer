@@ -28,7 +28,7 @@ export default async function handler(
 
 async function getSongs(session: Session, res: NextApiResponse) {
   const { user } = session;
-  const email = user?.email as str;
+  const email = user?.email as string;
   const dbUser = await prisma.user.findUnique({
     where: { email },
     select: { id: true, email: true },
