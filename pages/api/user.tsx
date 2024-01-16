@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
-import { getSession } from "next-auth/react";
+import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { getServerSession } from "next-auth";
 import { Session } from "next-auth";
 import { CreateSong } from "@/components/song/types";
-
 const prisma = new PrismaClient();
 
 export default async function handler(
@@ -12,7 +12,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const session = await getSession({ req });
+    const session = await getServerSession(req, res, authOptions)
     if (session) {
       if (req.method === "GET") getUserId(session, res);
       else res.status(405).json({ message: "Method not allowed" });
