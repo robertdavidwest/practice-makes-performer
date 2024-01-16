@@ -26,7 +26,7 @@ export default async function handler(
   }
 }
 
-async function getSongs(session: Session, res: NextApiResponse) {
+async function getSongs(session: Session | null, res: NextApiResponse) {
   //const { user } = session;
   //const email = user?.email as str;
   const email = "robert.david.west@gmail.com"
