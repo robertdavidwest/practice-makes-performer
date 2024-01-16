@@ -13,11 +13,6 @@ export default async function handler(
 ) {
   try {
     const session = await getSession({ req });
-    console.log("$$$$$$$$$$$$")
-    console.log("$$$$$$$$$$$$")
-    console.log("Session:", session);
-    console.log("$$$$$$$$$$$$")
-    console.log("$$$$$$$$$$$$")
     if (session) {
       if (req.method === "GET") getUserId(session, res);
       else res.status(405).json({ message: "Method not allowed" });
