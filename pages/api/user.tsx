@@ -12,6 +12,8 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
+    console.log("Request:", req);
+    console.log(req)
     const session = await getSession({ req });
     console.log("$$$$$$$$$$$$")
     console.log("$$$$$$$$$$$$")
