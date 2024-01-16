@@ -2,7 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import { CreateSection } from "@/components/song/types";
 
-import { getSession } from "next-auth/react";
+import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { getServerSession } from "next-auth";
 import { Session } from "next-auth";
 
 const prisma = new PrismaClient();
@@ -11,7 +12,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, authOptions)
   try {
     if (session) {
       if (req.method === "POST") postSection(session, req, res);

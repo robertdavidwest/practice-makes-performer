@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
-import { getSession } from "next-auth/react";
+import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { getServerSession } from "next-auth";
 import { Session } from "next-auth";
 import { CreateSong } from "@/components/song/types";
 
@@ -12,7 +13,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const session = await getSession({ req });
+    const session = await getServerSession(req, res, authOptions)
     if (session) {
       if (req.method === "GET") getSongs(session, res);
       else if (req.method === "POST") postSong(session, req, res);
