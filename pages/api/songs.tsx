@@ -13,9 +13,9 @@ export default async function handler(
 ) {
   try {
     const session = await getSession({ req });
-    if (true) {
+    if (session) {
       if (req.method === "GET") getSongs(session, res);
-      //else if (req.method === "POST") postSong(session, req, res);
+      else if (req.method === "POST") postSong(session, req, res);
       else res.status(405).json({ message: "Method not allowed" });
     } else {
       // Not Signed in
@@ -26,10 +26,9 @@ export default async function handler(
   }
 }
 
-async function getSongs(session: Session | null, res: NextApiResponse) {
-  //const { user } = session;
-  //const email = user?.email as str;
-  const email = "robert.david.west@gmail.com"
+async function getSongs(session: Session, res: NextApiResponse) {
+  const { user } = session;
+  const email = user?.email as str;
   const dbUser = await prisma.user.findUnique({
     where: { email },
     select: { id: true, email: true },

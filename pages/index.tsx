@@ -6,14 +6,15 @@ import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import Image from "next/image";
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 import { Container } from "@mui/material";
 import EnhancedTable from "@/components/portal/songsTable";
 import { sampleSongs } from "sampleData/song";
 import Link from "next/link";
+import { authOptions } from 'pages/api/auth/[...nextauth]'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
+  const session = await getServerSession(context.req, context.res, authOptions)
   if (session) {
     return {
       redirect: { destination: "/portal", permanent: true },
