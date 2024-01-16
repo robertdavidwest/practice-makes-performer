@@ -13,7 +13,10 @@ export default async function handler(
 ) {
   try {
     console.log("Request:", req);
-    console.log(req)
+    
+    console.log("Cookie header:", req.headers.cookie);  // Log Cookie header
+    console.log("Attempting to retrieve session...");
+
     const session = await getSession({ req });
     console.log("$$$$$$$$$$$$")
     console.log("$$$$$$$$$$$$")
