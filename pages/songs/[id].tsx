@@ -90,7 +90,7 @@ export default function Song() {
   const { push } = router;
   const { id } = router.query;
 
-  const { data } = useSWR(["/api/song/", id] as any, fetcher as any);
+  const { data } = useSWR(["/api/song/", id], fetcher);
   if (!session) {
     if (status === "unauthenticated") {
       push("/");
