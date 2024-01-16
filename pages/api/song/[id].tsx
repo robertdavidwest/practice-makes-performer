@@ -13,6 +13,11 @@ export default async function handler(
 ) {
   try {
     const session = await getSession({ req });
+    console.log("$$$$$$$$$$$$")
+    console.log("$$$$$$$$$$$$")
+    console.log("Session:", session);
+    console.log("$$$$$$$$$$$$")
+    console.log("$$$$$$$$$$$$")
     if (session) {
       if (req.method === "GET") getSong(session, req, res);
       else if (req.method === "PUT") putSong(session, req, res);
