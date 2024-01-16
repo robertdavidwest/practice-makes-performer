@@ -12,14 +12,16 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const session = await getSession({ req });
-    if (session) {
-      if (req.method === "GET") getUserId(session, res);
-      else res.status(405).json({ message: "Method not allowed" });
-    } else {
-      // Not Signed in
-      res.status(401).send("not signed in");
-    }
+    console.log("Request headers:", req.headers)
+    return res.status(200).json({ message: "Pre-getSession response" })
+    //const session = await getSession({ req });
+    //if (session) {
+      //if (req.method === "GET") getUserId(session, res);
+      //else res.status(405).json({ message: "Method not allowed" });
+    //} else {
+      //// Not Signed in
+      //res.status(401).send("not signed in");
+    //}
   } catch (error) {
     res.status(500).json({ message: "unexpected  error" });
   }
