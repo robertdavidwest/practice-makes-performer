@@ -12,6 +12,8 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
+    console.log("Request:", req);
+    
     console.log("Cookie header:", req.headers.cookie);  // Log Cookie header
     console.log("Attempting to retrieve session...");
 
