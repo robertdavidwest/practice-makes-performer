@@ -16,6 +16,10 @@ const Audio = ({ song, section, savePlayer, deletePlayer }: AudioType) => {
   const [volume, setVolume] = useState(1.0);
 
   const addSrc = React.useCallback(() => {
+    if (!song.audioUrl) {
+      console.error('No audio URL provided for song');
+      return;
+    }
     let src = song.audioUrl;
     let _start;
     if (!start) _start = 0;
@@ -48,12 +52,21 @@ const Audio = ({ song, section, savePlayer, deletePlayer }: AudioType) => {
   const load = React.useCallback(async () => {
     setLoading(true);
     addSrc();
+    if (!audio.current.src) {
+      setLoading(false);
+      return;
+    }
     audio.current.load();
     setLoaded(true);
     audio.current.onloadedmetadata = function () {
       const orig = Math.round(audio.current.duration);
       setDuration(orig);
       setLoading(false);
+    };
+    audio.current.onerror = function () {
+      console.error('Failed to load audio:', audio.current.error);
+      setLoading(false);
+      setLoaded(false);
     };
     setAudioPlaybackRate(speed);
   }, [audio, addSrc, speed, setAudioPlaybackRate]);
