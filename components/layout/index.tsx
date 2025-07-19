@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
 import UserDropdown from "./user-dropdown";
+import { useRouter } from "next/router";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
 
@@ -22,6 +23,7 @@ export default function Layout({
 }) {
   const { data: session, status } = useSession();
   const scrolled = useScroll(5);
+  const router = useRouter();
   return (
     <>
       <Meta {...meta} />
@@ -37,7 +39,7 @@ export default function Layout({
           <button
             className="flex items-center font-display text-2xl"
             onClick={() => {
-              window.location.href = "/";
+              router.push("/");
             }}
           >
             <Image
