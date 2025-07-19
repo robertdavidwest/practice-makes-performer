@@ -29,6 +29,7 @@ const Audio = ({ song, section, savePlayer, deletePlayer }: AudioType) => {
       src += `,${end}`;
     }
     audio.current.src = src;
+    console.log('Setting audio src to:', src);
   }, [audio, end, song.audioUrl, start]);
 
   const play = React.useCallback(async () => {
