@@ -65,7 +65,7 @@ const GOOGLE_DRIVE_PREFIX = "https://drive.google.com/file/d/";
 function convertGoogleDriveUrlToAudioUrl(url: string) {
   const id = url.split(GOOGLE_DRIVE_PREFIX)[1].split("/")[0];
   const audioUrl_f = (id: string) =>
-    `https://docs.google.com/uc?export=download&id=${id}`;
+    `https://drive.google.com/file/d/${id}/preview`;
 
   return audioUrl_f(id);
 }
